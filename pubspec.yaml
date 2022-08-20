@@ -43,6 +43,10 @@ dependencies:
   #Navigation
   routemaster: ^1.0.1
 
+  # Network
+  connectivity_plus: ^2.3.0
+  http: ^0.13.4
+
 
 dev_dependencies:
   flutter_test:
