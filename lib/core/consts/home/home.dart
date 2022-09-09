@@ -1,3 +1,4 @@
 class HomeConsts {
-  static const String title = 'Home';
+  static const appName = 'Sentimently';
+  static const sentimentChartTitle = 'Overall sentiment';
 }

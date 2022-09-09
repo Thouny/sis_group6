@@ -47,6 +47,9 @@ dependencies:
   connectivity_plus: ^2.3.0
   http: ^0.13.4
 
+  # Data visualisation
+  syncfusion_flutter_charts: ^20.2.48
+
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sis_group6/core/consts/home/home.dart';
+import 'package:sis_group6/mock/sentiment_data.dart';
+import 'package:sis_group6/presentation/widgets/sentiment_chart.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -7,13 +8,11 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text(HomeConsts.title),
-          ],
-        ),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SentimentChart(data: mockData),
+        ],
       ),
     );
   }

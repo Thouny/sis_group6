@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:sis_group6/core/consts/home/home.dart';
 
 class RootPageTabScaffold extends StatefulWidget {
   const RootPageTabScaffold({Key? key}) : super(key: key);
@@ -41,13 +42,9 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
 
   AppBar _buildAppBar(BuildContext context, String currentPath) {
     return AppBar(
-      elevation: 0,
-      leading: Padding(
-        padding: const EdgeInsets.all(8),
-        child: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.account_circle),
-        ),
+      title: const Padding(
+        padding: EdgeInsets.all(8),
+        child: Text(HomeConsts.appName),
       ),
       actions: [
         Padding(
