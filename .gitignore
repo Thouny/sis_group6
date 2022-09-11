@@ -1,3 +1,6 @@
+# Custom (Dont upload the csv while training)
+*.csv
+
 # Miscellaneous
 *.class
 *.log

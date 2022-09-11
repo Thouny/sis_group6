@@ -1,3 +1,5 @@
+# pip install --upgrade google-cloud-language
+
 import argparse
 
 from google.cloud import language_v1
