@@ -59,6 +59,7 @@ class _AppState extends State<App> {
         return MaterialApp.router(
           key: ObjectKey(state),
           title: AppConsts.appName,
+          debugShowCheckedModeBanner: false,
           routeInformationParser: const RoutemasterParser(),
           routerDelegate: routemaster,
           builder: (context, child) => MediaQuery(
