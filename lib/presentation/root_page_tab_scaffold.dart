@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
-import 'package:sis_group6/core/consts/home/home.dart';
 
 class RootPageTabScaffold extends StatefulWidget {
   const RootPageTabScaffold({Key? key}) : super(key: key);
@@ -42,10 +41,7 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
 
   AppBar _buildAppBar(BuildContext context, String currentPath) {
     return AppBar(
-      title: const Padding(
-        padding: EdgeInsets.all(8),
-        child: Text(HomeConsts.appName),
-      ),
+      title: _SearchBar(onSubmitted: (value) {}, onClear: () {}),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16),
@@ -55,6 +51,36 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SearchBar extends StatelessWidget {
+  const _SearchBar({required this.onSubmitted, required this.onClear});
+
+  final Function(String)? onSubmitted;
+  final VoidCallback? onClear;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: TextField(
+        onSubmitted: onSubmitted,
+        decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: onClear,
+            ),
+            hintText: 'Search...',
+            border: InputBorder.none),
+      ),
     );
   }
 }
