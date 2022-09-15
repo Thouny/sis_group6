@@ -6,6 +6,8 @@ import 'package:sis_group6/mock/sentiment_data.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_chart.dart';
 import 'package:sis_group6/presentation/widgets/tweet_list_card.dart';
 
+import '../../widgets/word_cloud.dart';
+
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
 
@@ -31,6 +33,7 @@ class HomeView extends StatelessWidget {
               children: [
                 SentimentChart(data: mockData),
                 const _TweetContent(key: Key('$keyPrefix-TweetsCard')),
+                const WordCloudExample(),
               ],
             ),
           ],

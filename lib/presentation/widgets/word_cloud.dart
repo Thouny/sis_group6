@@ -1,0 +1,62 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_scatter/flutter_scatter.dart';
+
+import '../../core/theme/app.dart';
+import '../models/word_cloud/word_cloud_data.dart';
+
+class WordCloudExample extends StatelessWidget {
+  const WordCloudExample({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> widgets = <Widget>[];
+    for (var i = 0; i < kFlutterHashtags.length; i++) {
+      widgets.add(ScatterItem(kFlutterHashtags[i], i));
+    }
+
+    final screenSize = MediaQuery.of(context).size;
+    final ratio = screenSize.width / screenSize.height;
+
+    return SizedBox(
+      height: AppHeightValues.sentimentChartHeight,
+      child: Padding(
+        padding: const EdgeInsets.all(AppPaddingValues.xSmallHorizontalPadding),
+        child: Card(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
+              child: FittedBox(
+                child: Scatter(
+                  fillGaps: true,
+                  delegate: ArchimedeanSpiralScatterDelegate(ratio: ratio),
+                  children: widgets,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ScatterItem extends StatelessWidget {
+  const ScatterItem(this.hashtag, this.index, {Key? key}) : super(key: key);
+  final FlutterHashtag hashtag;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle style = Theme.of(context).textTheme.bodyText1!.copyWith(
+          fontSize: hashtag.size.toDouble(),
+          color: hashtag.color,
+        );
+    return RotatedBox(
+      quarterTurns: hashtag.rotated ? 1 : 0,
+      child: Text(
+        hashtag.hashtag,
+        style: style,
+      ),
+    );
+  }
+}
