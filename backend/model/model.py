@@ -7,6 +7,7 @@
 
 import torch
 import torch.nn as nn
+import torch.optim as optim
 from transformers import BertTokenizer,BertModel
 
 import numpy as np
@@ -60,6 +61,9 @@ df = pd.read_csv('training.1600000.processed.noemoticon.csv',
 df=df.replace(4,1)
 #Might need to increase the smaple amount
 df=df.sample(20000)
+
+X=df[5].values # actualy tweets
+y=df[0].values # label (0 = negative, 1 = positive)
 
 # Load the BERT tokenizer
 tokenizer = BertTokenizer.from_pretrained(BERT_NAME, do_lower_case=True)
@@ -281,7 +285,7 @@ def bert_predict(model, test_dataloader):
     # Put the model into the evaluation mode. The dropout layers are disabled during
     # the test time.
     model.eval()
-
+    torch.save(model.state_dict(), 'testmodel.pt')
     all_logits = []
 
     # For each batch in our test set...
@@ -332,4 +336,3 @@ def evaluate_roc(probs, y_true):
 
 probs = bert_predict(SA_model, val_dataloader)
 evaluate_roc(probs, y_val)
-
