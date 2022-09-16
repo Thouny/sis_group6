@@ -17,10 +17,18 @@ client = tweepy.Client(bearer_token=BEARER,
      access_token_secret=ACCESS_SECRET)
 
 try:
-    query = 'mc donalds lang:en'
-    tweets = client.search_recent_tweets(query=query, max_results=10)
+    query = input('Enter your keyword:\n')
+    query = '#' + query + ' lang:en'
+    max_results = input('Enter how many tweets:\n')
+    max_results = int(max_results)
+    tweets = client.search_recent_tweets(query= query, max_results = max_results, sort_order='relevancy')
     for tweet in tweets.data:
         print(tweet.text)
+        #if tweet.public_metrics[2] is None:
+        #    print('0')
+        #else:
+        #    print(str(tweet.public_metrics[2]))
+
 
 except BaseException as e:
     print('Status Failed On,',str(e))
