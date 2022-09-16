@@ -35,6 +35,7 @@ class TweetsBloc extends Bloc<TweetsEvent, TweetsState> {
         emit(FailedTweetsState(errorMessage));
       }
     } catch (err) {
+      // ignore: avoid_print
       print(err);
       emit(FailedTweetsState(err.toString()));
     }
