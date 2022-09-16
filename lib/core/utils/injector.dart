@@ -1,5 +1,9 @@
 import 'dart:async';
 
+import 'package:get_it/get_it.dart';
+import 'package:sis_group6/domain/repositories/twitter_repository.dart';
+import 'package:sis_group6/services/twitter.dart';
+
 typedef AppRunner = void Function();
 
 class Injector {
@@ -11,8 +15,8 @@ class Injector {
   static Future<void> _initDependencies() async {
     _injectUtils();
     _injectDatabase();
-    _injectRepositories();
     _injectServices();
+    _injectRepositories();
   }
 }
 
@@ -21,6 +25,12 @@ void _injectUtils() {}
 
 void _injectDatabase() {}
 
-void _injectRepositories() {}
+void _injectRepositories() {
+  GetIt.I.registerLazySingleton<TwitterRepository>(() {
+    return TwitterRepositoryImpl();
+  });
+}
 
-void _injectServices() {}
+void _injectServices() {
+  GetIt.I.registerLazySingleton<TwitterService>(() => TwitterService());
+}
