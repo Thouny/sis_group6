@@ -1,19 +1,29 @@
 #pip install git+https://github.com/tweepy/tweepy.git
 # pip install transformers
 # pip install torch
+# pip install flask
+# pip install flask-sqlalchemy
+# pip install flask-restful
 
+#import libaries for use
 import torch
 import torch.nn as nn
 from transformers import BertTokenizer,BertModel
 from http import client
 import tweepy
 import keys
+import json
+from flask import Flask
+from flask_restful import Resource, Api, reqparse
 
+#constants for defining the model
 MAX_LENGTH=64
 BERT_NAME='bert-base-uncased'
 
+#use gpu over cpu
 device=torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
+#defines the classifier class before calling it
 class SentimentClassifier(nn.Module):
   def __init__(self, n_classes,max_length, device):
     super(SentimentClassifier, self).__init__()
@@ -50,40 +60,56 @@ class SentimentClassifier(nn.Module):
     output = self.drop(pooled_output)
     return self.out(output)
 
-model = SentimentClassifier(2,max_length=MAX_LENGTH,device=device) # initialize your model class
+#loading model we have saved
+model = SentimentClassifier(2,max_length=MAX_LENGTH,device=device)
 model.load_state_dict(torch.load('testmodel.pt'))
 
-#Pass in our twitter API authentication key
+#Passing auth key that has from key.py that has been exculuded from github
 client = tweepy.Client(bearer_token=keys.BEARER,
      consumer_key=keys.CONSUMER_KEY, 
      consumer_secret=keys.CONSUMER_SECRET, 
      access_token=keys.ACCESS_KEY, 
      access_token_secret=keys.ACCESS_SECRET)
 
-try:
-    query = input('Enter your keyword:\n')
-    query = '#' + query + ' lang:en'
-    max_results = input('Enter how many tweets:\n')
-    max_results = int(max_results)
-    tweets = client.search_recent_tweets(query= query, max_results = max_results, sort_order='relevancy')
-    count = 0
-    for tweet in tweets.data:
-        print(tweet.text)
-        class_names=['negative',"positive"]
-        sentiment=model(tweet.text)
-        _, sentiment = torch.max(sentiment, dim=1)
-        print(class_names[sentiment])
-        if sentiment == 1 :
-          count = count + 1
+#main function
+def sentimentAnalysis(query):
+  try:
+      #get query
+      #query = input('Enter your keyword:\n')
+      # PUT QUERY HERE
+      query = '#' + query + ' lang:en'
+      # max_results = input('Enter how many tweets:\n')
+      # max_results = int(max_results)
+      max_results = 99
+      tweets = client.search_recent_tweets(query= query, max_results = max_results, sort_order='relevancy')
+      count = 0
+      for tweet in tweets.data:
+          #print(tweet.text)
+          class_names=['negative',"positive"]
+          sentiment=model(tweet.text)
+          _, sentiment = torch.max(sentiment, dim=1)
+          #print(class_names[sentiment])
+          if sentiment == 1 :
+            count = count + 1
+          with open('tweetsfile._json','a',encoding='utf8') as outfile:
+            json.dump(tweet.data, outfile, indent = 4)
+          #if tweet.public_metrics[2] is None:
+          #    print('0')
+          #else:
+          #    print(str(tweet.public_metrics[2]))
+  except BaseException as e:
+      print('Status Failed On,',str(e))
+  return count
 
 
-        #if tweet.public_metrics[2] is None:
-        #    print('0')
-        #else:
-        #    print(str(tweet.public_metrics[2]))
-except BaseException as e:
-    print('Status Failed On,',str(e))
+#print outs for testing
+# print(str(count) + ' tweets are positve out of ' + str(max_results))
+# sentimentStat = (count/ max_results) * 100
+# print(str(round(sentimentStat, 2)) + '% postive sentiment')
 
-print(str(count) + ' tweets are positve out of ' + str(max_results))
-sentimentStat = (count/ max_results) * 100
-print(str(round(sentimentStat, 2)) + '% postive sentiment')
+
+#put in json
+#for tweet in tweets.data:
+
+    #with open('tweetsfile._json','a',encoding='utf8') as outfile:
+      #json.dump(tweet.data, outfile, indent = 4)
