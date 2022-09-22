@@ -41,7 +41,18 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
 
   AppBar _buildAppBar(BuildContext context, String currentPath) {
     return AppBar(
-      title: _SearchBar(onSubmitted: (value) {}, onClear: () {}),
+      // title: _SearchBar(onSubmitted: (value) {}, onClear: () {}),  //needa put this under the appbar somehow
+      //icons i need: icon.output, icon.add_sharp, and icon.help_center_outlined
+
+      backgroundColor: Colors.blue.shade900,
+      automaticallyImplyLeading: false,
+      elevation: 5.0,
+      leading: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.menu),
+      ),
+      // flexibleSpace: _SearchBar(onSubmitted: (value) {}, onClear: () {}),
+      title: Text("Dashboard"),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16),
