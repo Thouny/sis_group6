@@ -73,6 +73,7 @@ client = tweepy.Client(bearer_token=keys.BEARER,
 
 #main function
 def sentimentAnalysis(query):
+  count = 0
   try:
       #get query
       #query = input('Enter your keyword:\n')
@@ -82,7 +83,6 @@ def sentimentAnalysis(query):
       # max_results = int(max_results)
       max_results = 99
       tweets = client.search_recent_tweets(query= query, max_results = max_results, sort_order='relevancy')
-      count = 0
       for tweet in tweets.data:
           #print(tweet.text)
           class_names=['negative',"positive"]
