@@ -1,11 +1,18 @@
+#pip install git+https://github.com/tweepy/tweepy.git
+# pip install transformers
+# pip install torch
+
 import torch
 import torch.nn as nn
 from transformers import BertTokenizer,BertModel
+from http import client
+import tweepy
+
 MAX_LENGTH=64
+BERT_NAME='bert-base-uncased'
 
 device=torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-BERT_NAME='bert-base-uncased'
 class SentimentClassifier(nn.Module):
   def __init__(self, n_classes,max_length, device):
     super(SentimentClassifier, self).__init__()
@@ -45,9 +52,43 @@ class SentimentClassifier(nn.Module):
 model = SentimentClassifier(2,max_length=MAX_LENGTH,device=device) # initialize your model class
 model.load_state_dict(torch.load('testmodel.pt'))
 
-sample_txt="I love Mc Donalds very much."
+BEARER = "x"
+CONSUMER_KEY = "x"
+CONSUMER_SECRET = "x" 
+ACCESS_KEY = "x"    
+ACCESS_SECRET = "x" 
 
-class_names=['negative',"positive"]
-sentiment=model(sample_txt)
-_, sentiment = torch.max(sentiment, dim=1)
-print(class_names[sentiment])
+#Pass in our twitter API authentication key
+client = tweepy.Client(bearer_token=BEARER,
+     consumer_key=CONSUMER_KEY, 
+     consumer_secret=CONSUMER_SECRET, 
+     access_token=ACCESS_KEY, 
+     access_token_secret=ACCESS_SECRET)
+
+try:
+    query = input('Enter your keyword:\n')
+    query = '#' + query + ' lang:en'
+    max_results = input('Enter how many tweets:\n')
+    max_results = int(max_results)
+    tweets = client.search_recent_tweets(query= query, max_results = max_results, sort_order='relevancy')
+    count = 0
+    for tweet in tweets.data:
+        print(tweet.text)
+        class_names=['negative',"positive"]
+        sentiment=model(tweet.text)
+        _, sentiment = torch.max(sentiment, dim=1)
+        print(class_names[sentiment])
+        if sentiment == 1 :
+          count = count + 1
+
+
+        #if tweet.public_metrics[2] is None:
+        #    print('0')
+        #else:
+        #    print(str(tweet.public_metrics[2]))
+except BaseException as e:
+    print('Status Failed On,',str(e))
+
+print(str(count) + ' tweets are positve out of ' + str(max_results))
+sentimentStat = (count/ max_results) * 100
+print(str(round(sentimentStat, 2)) + '% postive sentiment')
