@@ -91,7 +91,7 @@ def sentimentAnalysis(query):
           #print(class_names[sentiment])
           if sentiment == 1 :
             count = count + 1
-          with open('tweetsfile._json','a',encoding='utf8') as outfile:
+          with open('tweetsfile.json','a',encoding='utf8') as outfile:
             json.dump(tweet.data, outfile, indent = 4)
           #if tweet.public_metrics[2] is None:
           #    print('0')
@@ -111,5 +111,5 @@ def sentimentAnalysis(query):
 #put in json
 #for tweet in tweets.data:
 
-    #with open('tweetsfile._json','a',encoding='utf8') as outfile:
+    #with open('tweetsfile.json','a',encoding='utf8') as outfile:
       #json.dump(tweet.data, outfile, indent = 4)

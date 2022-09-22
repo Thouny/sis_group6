@@ -3,6 +3,8 @@
 *.csv
 *.pt
 keys.py
+query.json
+tweetsfile.json
 
 # Miscellaneous
 *.class

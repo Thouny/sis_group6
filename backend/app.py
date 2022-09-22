@@ -11,7 +11,7 @@ class Sentiment(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('query', required=True, type=str, location='values')
         args = parser.parse_args()
-        with open('query._json','w',encoding='utf8') as outfile:
+        with open('query.json','w',encoding='utf8') as outfile:
             json.dump(args['query'], outfile)
         
         return{
@@ -26,10 +26,8 @@ class Sentiment(Resource):
             #return {'data': data}, 200
     
     def get(self):
-        with open('query._json','r',encoding='utf8') as outfile:
+        with open('query.json','r',encoding='utf8') as outfile:
             query = json.load(outfile)
-
-
         return {
             'sentimentStat': main.sentimentAnalysis(query)
         }, 200
