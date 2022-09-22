@@ -7,6 +7,7 @@ import torch.nn as nn
 from transformers import BertTokenizer,BertModel
 from http import client
 import tweepy
+import keys
 
 MAX_LENGTH=64
 BERT_NAME='bert-base-uncased'
@@ -52,18 +53,12 @@ class SentimentClassifier(nn.Module):
 model = SentimentClassifier(2,max_length=MAX_LENGTH,device=device) # initialize your model class
 model.load_state_dict(torch.load('testmodel.pt'))
 
-BEARER = "x"
-CONSUMER_KEY = "x"
-CONSUMER_SECRET = "x" 
-ACCESS_KEY = "x"    
-ACCESS_SECRET = "x" 
-
 #Pass in our twitter API authentication key
-client = tweepy.Client(bearer_token=BEARER,
-     consumer_key=CONSUMER_KEY, 
-     consumer_secret=CONSUMER_SECRET, 
-     access_token=ACCESS_KEY, 
-     access_token_secret=ACCESS_SECRET)
+client = tweepy.Client(bearer_token=keys.BEARER,
+     consumer_key=keys.CONSUMER_KEY, 
+     consumer_secret=keys.CONSUMER_SECRET, 
+     access_token=keys.ACCESS_KEY, 
+     access_token_secret=keys.ACCESS_SECRET)
 
 try:
     query = input('Enter your keyword:\n')

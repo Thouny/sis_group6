@@ -1,6 +1,8 @@
-# Custom (Dont upload the csv while training)
+# Custom
+# Not uploading .csv file used for training or full model or keys file
 *.csv
 *.pt
+keys.py
 
 # Miscellaneous
 *.class
