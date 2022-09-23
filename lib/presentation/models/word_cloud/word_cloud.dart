@@ -8,6 +8,7 @@ class Keyword {
     this.size,
     this.isRotated,
   );
+
   final String text;
   final Color color;
   final int size;
