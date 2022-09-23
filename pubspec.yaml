@@ -33,6 +33,7 @@ dependencies:
   # State management
   equatable: ^2.0.3
   flutter_bloc: ^8.1.1
+  provider: ^6.0.3
 
   # Dependency injection
   get_it: ^7.2.0
@@ -52,6 +53,8 @@ dependencies:
 
   # Twitter API client
   twitter_api_v2: ^3.2.3
+
+  google_fonts: ^3.0.1
 
 
 dev_dependencies:
