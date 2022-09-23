@@ -40,20 +40,20 @@ class WordCloud extends StatelessWidget {
 }
 
 class ScatterItem extends StatelessWidget {
-  const ScatterItem(this.hashtag, this.index, {Key? key}) : super(key: key);
-  final FlutterHashtag hashtag;
+  const ScatterItem(this.keyword, this.index, {Key? key}) : super(key: key);
+  final Keyword keyword;
   final int index;
 
   @override
   Widget build(BuildContext context) {
     final TextStyle style = Theme.of(context).textTheme.bodyText1!.copyWith(
-          fontSize: hashtag.size.toDouble(),
-          color: hashtag.color,
+          fontSize: keyword.size.toDouble(),
+          color: keyword.color,
         );
     return RotatedBox(
-      quarterTurns: hashtag.rotated ? 1 : 0,
+      quarterTurns: keyword.rotated ? 1 : 0,
       child: Text(
-        hashtag.hashtag,
+        keyword.hashtag,
         style: style,
       ),
     );
