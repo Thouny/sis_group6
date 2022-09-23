@@ -8,6 +8,7 @@ class TweetEntity extends Equatable {
     this.source,
     this.language,
     this.createdAt,
+    this.publicMetrics,
   });
 
   factory TweetEntity.from(TweetData data) {
@@ -17,6 +18,7 @@ class TweetEntity extends Equatable {
       source: data.source,
       language: data.lang,
       createdAt: data.createdAt,
+      publicMetrics: data.publicMetrics,
     );
   }
 
@@ -32,6 +34,15 @@ class TweetEntity extends Equatable {
 
   final DateTime? createdAt;
 
+  final PublicTweetMetrics? publicMetrics;
+
   @override
-  List<Object?> get props => [id, text, source, language, createdAt];
+  List<Object?> get props => [
+        id,
+        text,
+        source,
+        language,
+        createdAt,
+        publicMetrics,
+      ];
 }

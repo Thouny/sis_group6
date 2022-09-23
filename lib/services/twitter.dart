@@ -16,12 +16,13 @@ class TwitterService {
     timeout: const Duration(seconds: 20),
   );
 
-  Future<List<TweetEntity>?> searchRecent(
-    String query,
-  ) async {
+  Future<List<TweetEntity>?> searchRecent(String query) async {
     try {
       final tweets = <TweetEntity>[];
-      final response = await twitter.tweetsService.searchRecent(query: query);
+      final response = await twitter.tweetsService.searchRecent(
+        query: query,
+        maxResults: 10,
+      );
       for (var element in response.data) {
         tweets.add(TweetEntity.from(element));
       }

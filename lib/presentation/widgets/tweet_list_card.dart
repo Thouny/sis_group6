@@ -19,7 +19,13 @@ class TweetListCard extends StatelessWidget {
             shrinkWrap: true,
             itemCount: tweets.length,
             itemBuilder: (context, index) {
-              return ListTile(title: Text(tweets[index].text));
+              final currentTweet = tweets[index];
+              return ListTile(
+                title: Text(currentTweet.text),
+                subtitle: Text(
+                  currentTweet.publicMetrics?.likeCount.toString() ?? '',
+                ),
+              );
             },
             separatorBuilder: (context, indext) => const Divider(),
           ),

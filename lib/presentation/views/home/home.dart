@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
+import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/mock/sentiment_data.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_chart.dart';
 import 'package:sis_group6/presentation/widgets/tweet_list_card.dart';
@@ -20,7 +21,11 @@ class HomeView extends StatelessWidget {
           children: [
             _SearchBar(
               key: const Key('$keyPrefix-SearchBar'),
-              onSubmitted: (value) => tweetsBloc.add(SearchTweetsEvent(value)),
+              onSubmitted: (value) {
+                if (value.isNotEmpty) {
+                  tweetsBloc.add(SearchTweetsEvent(value));
+                }
+              },
             ),
             Column(
               children: [
@@ -40,17 +45,25 @@ class _TweetContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TweetsBloc, TweetsState>(
-      builder: (context, state) {
-        if (state is LoadedTweetsState) {
-          return TweetListCard(tweets: state.tweets);
-        } else if (state is LoadingTweetsState) {
-          const CircularProgressIndicator();
-        } else if (state is FailedTweetsState) {
-          return Text(state.message);
-        }
-        return const SizedBox.shrink();
-      },
+    return Container(
+      padding: const EdgeInsets.all(AppPaddingValues.xSmallHorizontalPadding),
+      height: AppHeightValues.sentimentChartHeight,
+      child: Card(
+        child: BlocBuilder<TweetsBloc, TweetsState>(
+          builder: (context, state) {
+            if (state is LoadedTweetsState) {
+              return TweetListCard(tweets: state.tweets);
+            } else if (state is LoadingTweetsState) {
+              const CircularProgressIndicator();
+            } else if (state is FailedTweetsState) {
+              return Text(state.message);
+            }
+            return const SizedBox.expand(
+              child: Center(child: Text('SEARCH A TOPIC')),
+            );
+          },
+        ),
+      ),
     );
   }
 }
