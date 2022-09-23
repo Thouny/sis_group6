@@ -48,6 +48,7 @@ class AppHeightValues {
   static const double cardHeight = 276;
   static const double cardImageHeight = 157;
   static const double sentimentChartHeight = 200;
+  static const double tweetsCardHeight = 400;
   static const double tileHeight = 83;
   static const double mindHackCardHeight = 137;
   static const double lessonButtonHeight = 55.0;

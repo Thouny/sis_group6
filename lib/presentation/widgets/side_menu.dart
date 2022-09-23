@@ -12,32 +12,32 @@ class SideMenu extends StatelessWidget {
           const DrawerHeader(
             child: Text(AppConsts.appName),
           ),
-          DrawerListTile(
-            title: "Dashboard",
+          _DrawerListTile(
+            title: AppConsts.dashboard,
             press: () {},
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.dashboard_rounded),
             ),
           ),
-          DrawerListTile(
-            title: "Notification",
+          _DrawerListTile(
+            title: AppConsts.notification,
             press: () {},
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.notifications),
             ),
           ),
-          DrawerListTile(
-            title: "Profile",
+          _DrawerListTile(
+            title: AppConsts.profile,
             press: () {},
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.account_box),
             ),
           ),
-          DrawerListTile(
-            title: "Settings",
+          _DrawerListTile(
+            title: AppConsts.settings,
             press: () {},
             icon: IconButton(
               onPressed: () {},
@@ -50,8 +50,8 @@ class SideMenu extends StatelessWidget {
   }
 }
 
-class DrawerListTile extends StatelessWidget {
-  const DrawerListTile({
+class _DrawerListTile extends StatelessWidget {
+  const _DrawerListTile({
     Key? key,
     required this.title,
     required this.press,

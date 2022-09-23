@@ -31,13 +31,16 @@ class SentimentDetails extends StatelessWidget {
             title: "Positive",
             percentage: "70%",
             tweetCounts: 132,
-            icon: Icon(Icons.thumb_up),
+            icon: Icon(
+              Icons.thumb_up,
+              color: Color.fromARGB(255, 38, 255, 89),
+            ),
           ),
           const SentimentInfoCard(
             title: "Negative",
             percentage: "30%",
             tweetCounts: 58,
-            icon: Icon(Icons.thumb_down),
+            icon: Icon(Icons.thumb_down, color: Color(0xFFEE2727)),
           ),
         ],
       ),

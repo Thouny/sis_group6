@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
-import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
+import 'package:sis_group6/presentation/widgets/search_bar.dart';
 
 class Header extends StatelessWidget {
-  const Header({
-    Key? key,
-  }) : super(key: key);
+  const Header({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TweetsBloc>(context);
     return Row(
       children: [
         if (!Responsive.isDesktop(context))
@@ -25,33 +25,16 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        const Expanded(child: SearchField()),
+        Expanded(
+          child: SearchBar(
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                bloc.add(SearchTweetsEvent(value));
+              }
+            },
+          ),
+        ),
       ],
-    );
-  }
-}
-
-class SearchField extends StatelessWidget {
-  const SearchField({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search",
-        fillColor: AppColors.secondaryColor,
-        filled: true,
-        border: const OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.clear),
-          onPressed: () {},
-        ),
-      ),
     );
   }
 }
