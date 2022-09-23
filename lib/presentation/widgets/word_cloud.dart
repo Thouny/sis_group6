@@ -11,7 +11,7 @@ class WordCloud extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> widgets = <Widget>[];
     for (var i = 0; i < mockKeywords.length; i++) {
-      widgets.add(ScatterItem(mockKeywords[i], i));
+      widgets.add(_ScatterItem(mockKeywords[i], i));
     }
 
     final screenSize = MediaQuery.of(context).size;
@@ -40,8 +40,8 @@ class WordCloud extends StatelessWidget {
   }
 }
 
-class ScatterItem extends StatelessWidget {
-  const ScatterItem(this.keyword, this.index, {Key? key}) : super(key: key);
+class _ScatterItem extends StatelessWidget {
+  const _ScatterItem(this.keyword, this.index, {Key? key}) : super(key: key);
   final Keyword keyword;
   final int index;
 
