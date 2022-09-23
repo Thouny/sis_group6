@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scatter/flutter_scatter.dart';
-
-import '../../core/theme/app.dart';
-import '../models/word_cloud/word_cloud_data.dart';
+import 'package:sis_group6/core/theme/app.dart';
+import 'package:sis_group6/presentation/models/word_cloud/word_cloud.dart';
 
 class WordCloud extends StatelessWidget {
   const WordCloud({Key? key}) : super(key: key);
