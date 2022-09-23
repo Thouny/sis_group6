@@ -42,6 +42,7 @@ class WordCloud extends StatelessWidget {
 
 class _ScatterItem extends StatelessWidget {
   const _ScatterItem(this.keyword, this.index, {Key? key}) : super(key: key);
+
   final Keyword keyword;
   final int index;
 
