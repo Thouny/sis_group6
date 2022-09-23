@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:sis_group6/core/consts/home/home.dart';
+import 'package:sis_group6/presentation/widgets/side_menu.dart';
 
 class RootPageTabScaffold extends StatefulWidget {
   const RootPageTabScaffold({Key? key}) : super(key: key);
@@ -29,7 +30,8 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
     final currentPath = Routemaster.of(context).currentRoute.fullPath;
 
     return Scaffold(
-      appBar: _buildAppBar(context, currentPath),
+      // appBar: _buildAppBar(context, currentPath),
+      drawer: const SideMenu(),
       body: HeroControllerScope(
         controller: MaterialApp.createMaterialHeroController(),
         child: PageStackNavigator(
