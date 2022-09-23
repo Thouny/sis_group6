@@ -1,6 +1,8 @@
 import 'package:flutter/painting.dart';
 import 'dart:ui';
 
+import 'package:sis_group6/core/theme/keyword.dart';
+
 class Keyword {
   const Keyword(
     this.text,
@@ -14,65 +16,49 @@ class Keyword {
   final bool rotated;
 }
 
-class FlutterColors {
-  const FlutterColors._();
-
-  static const Color yellow = Color(0xFFFFC108);
-
-  static const Color white = Color(0xFFFFFFFF);
-
-  static const Color blue400 = Color(0xFF13B9FD);
-  static const Color blue600 = Color(0xFF0175C2);
-  static const Color blue = Color(0xFF02569B);
-
-  static const Color gray100 = Color(0xFFD5D7DA);
-  static const Color gray600 = Color(0xFF60646B);
-  static const Color gray = Color(0xFF202124);
-}
-
 const List<Keyword> kFlutterHashtags = <Keyword>[
-  Keyword('#FlutterLive', FlutterColors.yellow, 100, false),
-  Keyword('#FlutterSpiration', FlutterColors.gray600, 24, false),
-  Keyword('#FlutterSpirit', FlutterColors.blue600, 12, true),
-  Keyword('#FlutterHashtagging', FlutterColors.gray, 14, false),
-  Keyword('#FlutterHashtagChallenge', FlutterColors.blue400, 16, false),
-  Keyword('#FlutterHashtagOfTheDay', FlutterColors.blue600, 12, true),
-  Keyword('#FlutterCover', FlutterColors.gray600, 20, true),
-  Keyword('#FlutterDream', FlutterColors.blue, 36, false),
-  Keyword('#FlutterAddict', FlutterColors.blue400, 40, false),
-  Keyword('#FlutterDevOps', FlutterColors.gray, 32, true),
-  Keyword('#Fluttermidable', FlutterColors.gray, 12, false),
-  Keyword('#FlutterPackage', FlutterColors.gray600, 14, false),
-  Keyword('#FlutterUpgradeDay', FlutterColors.blue600, 16, false),
-  Keyword('#FlutterFunCoding', FlutterColors.blue600, 20, true),
-  Keyword('#FlutterGuestStars', FlutterColors.blue, 22, false),
-  Keyword('#FlutterMagician', FlutterColors.gray, 30, false),
-  Keyword('#FlutterHotReload', FlutterColors.yellow, 44, false),
-  Keyword('#FlutterMagicTrick', FlutterColors.blue400, 30, true),
-  Keyword('#FlutterWeekEnd', FlutterColors.gray, 12, true),
-  Keyword('#FlutterArtist', FlutterColors.blue600, 20, false),
-  Keyword('#FlutterDevelopers', FlutterColors.gray600, 32, false),
-  Keyword('#FlutterGuestStar', FlutterColors.blue600, 34, false),
-  Keyword('#FlutterBestDayOfTheWeek', FlutterColors.gray, 12, true),
-  Keyword('#FlutterIsMyBFF', FlutterColors.gray, 20, false),
-  Keyword('#FlutterIsComing', FlutterColors.yellow, 44, false),
-  Keyword('#FlutterMakers', FlutterColors.blue, 32, true),
-  Keyword('#FlutterLiveInvite', FlutterColors.blue, 40, false),
-  Keyword('#FlutterPower', FlutterColors.blue400, 32, false),
-  Keyword('#FlutterCat', FlutterColors.blue, 20, true),
-  Keyword('#FlutterExcellent', FlutterColors.gray, 24, true),
-  Keyword('#FlutterIsAwesome', FlutterColors.blue, 26, false),
-  Keyword('#FlutterExcited', FlutterColors.blue600, 28, false),
-  Keyword('#FlutterReady', FlutterColors.gray, 36, true),
-  Keyword('#FlutterRennes', FlutterColors.blue, 36, false),
-  Keyword('#FlutterLiveRegistration', FlutterColors.blue400, 40, false),
-  Keyword('#FlutterLiveTicket', FlutterColors.blue, 36, false),
-  Keyword('#FlutterDreamComeTrue', FlutterColors.blue400, 20, false),
-  Keyword('#SeeYouLiveAtFlutterLive', FlutterColors.blue, 12, false),
-  Keyword('#GoodFlutterNews', FlutterColors.blue, 14, false),
-  Keyword('#FlutterIsSoGreat', FlutterColors.blue, 20, false),
-  Keyword('#FlutterUsers', FlutterColors.blue, 30, false),
-  Keyword('#FlutterSpeakers', FlutterColors.blue, 22, true),
-  Keyword('#FlutterSwag', FlutterColors.blue, 34, false),
-  Keyword('#Flutter40K', FlutterColors.yellow, 50, false),
+  Keyword('#FlutterLive', KeywordColors.yellow, 100, false),
+  Keyword('#FlutterSpiration', KeywordColors.gray600, 24, false),
+  Keyword('#FlutterSpirit', KeywordColors.blue600, 12, true),
+  Keyword('#FlutterHashtagging', KeywordColors.gray, 14, false),
+  Keyword('#FlutterHashtagChallenge', KeywordColors.blue400, 16, false),
+  Keyword('#FlutterHashtagOfTheDay', KeywordColors.blue600, 12, true),
+  Keyword('#FlutterCover', KeywordColors.gray600, 20, true),
+  Keyword('#FlutterDream', KeywordColors.blue, 36, false),
+  Keyword('#FlutterAddict', KeywordColors.blue400, 40, false),
+  Keyword('#FlutterDevOps', KeywordColors.gray, 32, true),
+  Keyword('#Fluttermidable', KeywordColors.gray, 12, false),
+  Keyword('#FlutterPackage', KeywordColors.gray600, 14, false),
+  Keyword('#FlutterUpgradeDay', KeywordColors.blue600, 16, false),
+  Keyword('#FlutterFunCoding', KeywordColors.blue600, 20, true),
+  Keyword('#FlutterGuestStars', KeywordColors.blue, 22, false),
+  Keyword('#FlutterMagician', KeywordColors.gray, 30, false),
+  Keyword('#FlutterHotReload', KeywordColors.yellow, 44, false),
+  Keyword('#FlutterMagicTrick', KeywordColors.blue400, 30, true),
+  Keyword('#FlutterWeekEnd', KeywordColors.gray, 12, true),
+  Keyword('#FlutterArtist', KeywordColors.blue600, 20, false),
+  Keyword('#FlutterDevelopers', KeywordColors.gray600, 32, false),
+  Keyword('#FlutterGuestStar', KeywordColors.blue600, 34, false),
+  Keyword('#FlutterBestDayOfTheWeek', KeywordColors.gray, 12, true),
+  Keyword('#FlutterIsMyBFF', KeywordColors.gray, 20, false),
+  Keyword('#FlutterIsComing', KeywordColors.yellow, 44, false),
+  Keyword('#FlutterMakers', KeywordColors.blue, 32, true),
+  Keyword('#FlutterLiveInvite', KeywordColors.blue, 40, false),
+  Keyword('#FlutterPower', KeywordColors.blue400, 32, false),
+  Keyword('#FlutterCat', KeywordColors.blue, 20, true),
+  Keyword('#FlutterExcellent', KeywordColors.gray, 24, true),
+  Keyword('#FlutterIsAwesome', KeywordColors.blue, 26, false),
+  Keyword('#FlutterExcited', KeywordColors.blue600, 28, false),
+  Keyword('#FlutterReady', KeywordColors.gray, 36, true),
+  Keyword('#FlutterRennes', KeywordColors.blue, 36, false),
+  Keyword('#FlutterLiveRegistration', KeywordColors.blue400, 40, false),
+  Keyword('#FlutterLiveTicket', KeywordColors.blue, 36, false),
+  Keyword('#FlutterDreamComeTrue', KeywordColors.blue400, 20, false),
+  Keyword('#SeeYouLiveAtFlutterLive', KeywordColors.blue, 12, false),
+  Keyword('#GoodFlutterNews', KeywordColors.blue, 14, false),
+  Keyword('#FlutterIsSoGreat', KeywordColors.blue, 20, false),
+  Keyword('#FlutterUsers', KeywordColors.blue, 30, false),
+  Keyword('#FlutterSpeakers', KeywordColors.blue, 22, true),
+  Keyword('#FlutterSwag', KeywordColors.blue, 34, false),
+  Keyword('#Flutter40K', KeywordColors.yellow, 50, false),
 ];
