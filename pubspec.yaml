@@ -33,6 +33,7 @@ dependencies:
   # State management
   equatable: ^2.0.3
   flutter_bloc: ^8.1.1
+  provider: ^6.0.3
 
   # Dependency injection
   get_it: ^7.2.0
@@ -49,12 +50,16 @@ dependencies:
 
   # Data visualisation
   syncfusion_flutter_charts: ^20.2.48
+  fl_chart: ^0.55.1
 
   # Twitter API client
   twitter_api_v2: ^3.2.3
 
   # Word cloud
   flutter_scatter: ^0.2.0
+  
+  google_fonts: ^3.0.1
+
 
 dev_dependencies:
   flutter_test:

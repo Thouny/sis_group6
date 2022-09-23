@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+class AppColors {
+  static const primaryColor = Color(0xFF2697FF);
+  static const secondaryColor = Color(0xFF2A2D3E);
+  static const backgroundColor = Color(0xFF212332);
+}
+
 class AppPaddingValues {
   static const double xxSmalPadding = 6;
   static const double xSmallPadding = 8;
@@ -41,7 +47,8 @@ class AppHeightValues {
   static const double xSmallCollectionCardHeight = 260;
   static const double cardHeight = 276;
   static const double cardImageHeight = 157;
-  static const double sentimentChartHeight = 400;
+  static const double sentimentChartHeight = 200;
+  static const double tweetsCardHeight = 400;
   static const double tileHeight = 83;
   static const double mindHackCardHeight = 137;
   static const double lessonButtonHeight = 55.0;
