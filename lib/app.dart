@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:sis_group6/bloc/app/app_bloc.dart';
+import 'package:sis_group6/controller/menu_controller.dart';
 import 'package:sis_group6/core/consts/app.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/core/utils/injector.dart';
@@ -19,9 +21,16 @@ class AppWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppBloc()..add(const CheckAppStateEvent()),
-      child: const App(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => MenuController(),
+        ),
+      ],
+      child: BlocProvider(
+        create: (context) => AppBloc()..add(const CheckAppStateEvent()),
+        child: const App(),
+      ),
     );
   }
 }
