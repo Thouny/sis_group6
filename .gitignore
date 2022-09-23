@@ -1,3 +1,11 @@
+# Custom
+# Not uploading .csv file used for training or full model or keys file
+*.csv
+*.pt
+keys.py
+query.json
+tweetsfile.json
+
 # Miscellaneous
 *.class
 *.log
