@@ -54,10 +54,7 @@ class _ScatterItem extends StatelessWidget {
         );
     return RotatedBox(
       quarterTurns: keyword.isRotated ? 1 : 0,
-      child: Text(
-        keyword.text,
-        style: style,
-      ),
+      child: Text(keyword.text, style: style),
     );
   }
 }
