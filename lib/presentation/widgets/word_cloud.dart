@@ -6,12 +6,14 @@ import 'package:sis_group6/presentation/models/word_cloud/word_cloud.dart';
 
 class WordCloud extends StatelessWidget {
   const WordCloud({Key? key, required this.data}) : super(key: key);
+
   final List<Keyword> data;
+
   static const keyPrefix = 'WordCloud';
 
   List<Widget> _generateScatterItems(List<Keyword> keywords) {
     List<Widget> widgets = <Widget>[];
-    for (var i = 0; i < mockKeywords.length; i++) {
+    for (var i = 0; i < data.length; i++) {
       widgets.add(_ScatterItem(mockKeywords[i], i));
     }
     return widgets;
@@ -22,21 +24,23 @@ class WordCloud extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     final ratio = screenSize.width / screenSize.height;
 
-    return SizedBox(
-      height: AppHeightValues.sentimentChartHeight,
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.secondaryColor,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      height: AppHeightValues.tweetsCardHeight,
       child: Padding(
         padding: const EdgeInsets.all(AppPaddingValues.xSmallHorizontalPadding),
-        child: Card(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-              child: FittedBox(
-                child: Scatter(
-                  key: const Key(keyPrefix),
-                  fillGaps: true,
-                  delegate: ArchimedeanSpiralScatterDelegate(ratio: ratio),
-                  children: _generateScatterItems(data),
-                ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
+            child: FittedBox(
+              child: Scatter(
+                key: const Key(keyPrefix),
+                fillGaps: true,
+                delegate: ArchimedeanSpiralScatterDelegate(ratio: ratio),
+                children: _generateScatterItems(data),
               ),
             ),
           ),
