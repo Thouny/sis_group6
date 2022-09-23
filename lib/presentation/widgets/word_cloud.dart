@@ -53,7 +53,7 @@ class ScatterItem extends StatelessWidget {
     return RotatedBox(
       quarterTurns: keyword.rotated ? 1 : 0,
       child: Text(
-        keyword.hashtag,
+        keyword.text,
         style: style,
       ),
     );

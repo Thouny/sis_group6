@@ -3,12 +3,12 @@ import 'dart:ui';
 
 class Keyword {
   const Keyword(
-    this.hashtag,
+    this.text,
     this.color,
     this.size,
     this.rotated,
   );
-  final String hashtag;
+  final String text;
   final Color color;
   final int size;
   final bool rotated;
