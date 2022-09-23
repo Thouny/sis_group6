@@ -42,10 +42,14 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
 
   AppBar _buildAppBar(BuildContext context, String currentPath) {
     return AppBar(
-      title: const Padding(
-        padding: EdgeInsets.all(8),
-        child: Text(HomeConsts.appName),
+      backgroundColor: Colors.blue.shade900,
+      automaticallyImplyLeading: false,
+      elevation: 5.0,
+      leading: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.menu),
       ),
+      title: const Text("Dashboard"),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16),
