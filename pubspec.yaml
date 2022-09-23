@@ -50,6 +50,9 @@ dependencies:
   # Data visualisation
   syncfusion_flutter_charts: ^20.2.48
 
+  # Twitter API client
+  twitter_api_v2: ^3.2.3
+
 
 dev_dependencies:
   flutter_test:
