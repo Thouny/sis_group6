@@ -33,6 +33,7 @@ dependencies:
   # State management
   equatable: ^2.0.3
   flutter_bloc: ^8.1.1
+  provider: ^6.0.3
 
   # Dependency injection
   get_it: ^7.2.0
@@ -55,6 +56,9 @@ dependencies:
 
   # Word cloud
   flutter_scatter: ^0.2.0
+  
+  google_fonts: ^3.0.1
+
 
 dev_dependencies:
   flutter_test:
