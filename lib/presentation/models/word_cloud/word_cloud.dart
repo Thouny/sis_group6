@@ -8,12 +8,12 @@ class Keyword {
     this.text,
     this.color,
     this.size,
-    this.rotated,
+    this.isRotated,
   );
   final String text;
   final Color color;
   final int size;
-  final bool rotated;
+  final bool isRotated;
 }
 
 const List<Keyword> kFlutterHashtags = <Keyword>[
