@@ -5,7 +5,9 @@ import 'package:sis_group6/mock/keyword_data.dart';
 import 'package:sis_group6/presentation/models/word_cloud/word_cloud.dart';
 
 class WordCloud extends StatelessWidget {
-  const WordCloud({Key? key}) : super(key: key);
+  const WordCloud({Key? key, required this.data}) : super(key: key);
+  final List<Keyword> data;
+  static const keyPrefix = 'WordCloud';
 
   @override
   Widget build(BuildContext context) {
