@@ -29,6 +29,7 @@ class WordCloud extends StatelessWidget {
               padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
               child: FittedBox(
                 child: Scatter(
+                  key: const Key(keyPrefix),
                   fillGaps: true,
                   delegate: ArchimedeanSpiralScatterDelegate(ratio: ratio),
                   children: widgets,
