@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scatter/flutter_scatter.dart';
 import 'package:sis_group6/core/theme/app.dart';
+import 'package:sis_group6/mock/keyword_data.dart';
 import 'package:sis_group6/presentation/models/word_cloud/word_cloud.dart';
 
 class WordCloud extends StatelessWidget {
@@ -9,8 +10,8 @@ class WordCloud extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = <Widget>[];
-    for (var i = 0; i < kFlutterHashtags.length; i++) {
-      widgets.add(ScatterItem(kFlutterHashtags[i], i));
+    for (var i = 0; i < mockKeywords.length; i++) {
+      widgets.add(ScatterItem(mockKeywords[i], i));
     }
 
     final screenSize = MediaQuery.of(context).size;
