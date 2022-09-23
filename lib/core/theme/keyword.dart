@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class KeywordColors {
-  const KeywordColors._();
-
   static const Color yellow = Color(0xFFFFC108);
 
   static const Color white = Color(0xFFFFFFFF);
