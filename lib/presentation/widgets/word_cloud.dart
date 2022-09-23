@@ -4,8 +4,8 @@ import 'package:flutter_scatter/flutter_scatter.dart';
 import '../../core/theme/app.dart';
 import '../models/word_cloud/word_cloud_data.dart';
 
-class WordCloudExample extends StatelessWidget {
-  const WordCloudExample({Key? key}) : super(key: key);
+class WordCloud extends StatelessWidget {
+  const WordCloud({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -33,7 +33,7 @@ class HomeView extends StatelessWidget {
               children: [
                 SentimentChart(data: mockData),
                 const _TweetContent(key: Key('$keyPrefix-TweetsCard')),
-                const WordCloudExample(),
+                const WordCloud(),
               ],
             ),
           ],
