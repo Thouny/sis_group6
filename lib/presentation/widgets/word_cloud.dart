@@ -9,13 +9,16 @@ class WordCloud extends StatelessWidget {
   final List<Keyword> data;
   static const keyPrefix = 'WordCloud';
 
-  @override
-  Widget build(BuildContext context) {
+  List<Widget> _generateScatterItems(List<Keyword> keywords) {
     List<Widget> widgets = <Widget>[];
     for (var i = 0; i < mockKeywords.length; i++) {
       widgets.add(_ScatterItem(mockKeywords[i], i));
     }
+    return widgets;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final ratio = screenSize.width / screenSize.height;
 
@@ -32,7 +35,7 @@ class WordCloud extends StatelessWidget {
                   key: const Key(keyPrefix),
                   fillGaps: true,
                   delegate: ArchimedeanSpiralScatterDelegate(ratio: ratio),
-                  children: widgets,
+                  children: _generateScatterItems(data),
                 ),
               ),
             ),
