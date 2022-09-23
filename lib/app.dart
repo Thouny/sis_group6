@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:sis_group6/bloc/app/app_bloc.dart';
 import 'package:sis_group6/core/consts/app.dart';
+import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/core/utils/injector.dart';
 import 'package:sis_group6/routing/page_routes.dart';
 
@@ -59,6 +61,12 @@ class _AppState extends State<App> {
         return MaterialApp.router(
           key: ObjectKey(state),
           title: AppConsts.appName,
+          theme: ThemeData.dark().copyWith(
+            scaffoldBackgroundColor: AppColors.backgroundColor,
+            textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+                .apply(bodyColor: Colors.white),
+            canvasColor: AppColors.secondaryColor,
+          ),
           routeInformationParser: const RoutemasterParser(),
           routerDelegate: routemaster,
           builder: (context, child) => MediaQuery(
