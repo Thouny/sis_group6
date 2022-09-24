@@ -55,9 +55,6 @@ dependencies:
   # Twitter API client
   twitter_api_v2: ^3.2.3
 
-  # Word cloud
-  flutter_scatter: ^0.2.0
-  
   google_fonts: ^3.0.1
 
 
