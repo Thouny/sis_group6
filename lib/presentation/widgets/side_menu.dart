@@ -19,7 +19,9 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.dashboard,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(0);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.dashboard_rounded),
@@ -51,7 +53,9 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.aboutus,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(1);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.supervised_user_circle),
