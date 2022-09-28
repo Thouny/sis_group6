@@ -1,4 +1,5 @@
 import 'package:routemaster/routemaster.dart';
+import 'package:sis_group6/presentation/pages/About_Us/About_Us.dart';
 import 'package:sis_group6/presentation/pages/home/home.dart';
 import 'package:sis_group6/presentation/pages/loading.dart';
 import 'package:sis_group6/presentation/root_page_tab_scaffold.dart';
@@ -20,6 +21,7 @@ class PageRoutes {
             child: RootPageTabScaffold(),
             paths: [
               Routes.home,
+              Routes.aboutUs,
             ],
           ),
 
@@ -28,6 +30,7 @@ class PageRoutes {
       /// **********************************************************************
       // `/home`
       Routes.home: (_) => HomePage(),
+      Routes.aboutUs: (_) => AboutUsPage(),
     },
   );
 }

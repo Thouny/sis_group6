@@ -6,4 +6,5 @@ class AppConsts {
   static const settings = 'Settings';
   static const errorMessage = 'Whoops, something went wrong';
   static const unavailableContent = 'Unavailable content!';
+  static const aboutus = 'About us';
 }

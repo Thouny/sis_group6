@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sis_group6/core/consts/app.dart';
+import 'package:sis_group6/presentation/pages/about_us/about_us.dart';
+import 'package:sis_group6/presentation/pages/home/home.dart';
+import 'package:sis_group6/presentation/widgets/search_bar.dart';
+import 'package:routemaster/routemaster.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final tabState = TabPage.of(context);
     return Drawer(
       child: ListView(
         children: [
@@ -42,6 +47,14 @@ class SideMenu extends StatelessWidget {
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.settings),
+            ),
+          ),
+          _DrawerListTile(
+            title: AppConsts.aboutus,
+            press: () {},
+            icon: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.supervised_user_circle),
             ),
           ),
         ],
