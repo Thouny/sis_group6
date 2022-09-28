@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
+import 'package:sis_group6/presentation/views/about_us/about_us_info.dart';
 import 'package:sis_group6/presentation/views/home/dashboard.dart';
+import 'package:sis_group6/presentation/views/loading.dart';
 import 'package:sis_group6/presentation/widgets/side_menu.dart';
 
 class AboutUsView extends StatelessWidget {
@@ -24,7 +26,7 @@ class AboutUsView extends StatelessWidget {
           const Expanded(
             // It takes 5/6 part of the screen
             flex: 5,
-            child: DashboardView(),
+            child: AboutUsInfoView(),
           ),
         ],
       ),
