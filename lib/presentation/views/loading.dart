@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingView extends StatelessWidget {
   final String message;
@@ -15,6 +16,7 @@ class LoadingView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const SpinKitThreeInOut(color: Colors.white, size: 35),
             Text(message),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
+import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/presentation/widgets/tweet_list_card.dart';
 
@@ -19,7 +20,7 @@ class TweetsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Tweets",
+            DashboardConsts.tweetsCardTitle,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           const SizedBox(
@@ -49,7 +50,15 @@ class _TweetContent extends StatelessWidget {
             return Text(state.message);
           }
           return const SizedBox.expand(
-            child: Center(child: Text('SEARCH A TOPIC')),
+            child: Center(
+              child: Text(
+                DashboardConsts.emptyCardText,
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
           );
         },
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sis_group6/bloc/sentiment/sentiment_bloc.dart';
 import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/presentation/pages/app.dart';
 import 'package:sis_group6/presentation/views/home/home.dart';
@@ -21,8 +22,15 @@ class HomePage extends AppPage<void> {
     return MaterialPageRoute(
         settings: this,
         builder: (context) {
-          return BlocProvider(
-            create: (context) => TweetsBloc(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => TweetsBloc(),
+              ),
+              BlocProvider(
+                create: (context) => SentimentBloc(),
+              ),
+            ],
             child: const HomeView(),
           );
         });

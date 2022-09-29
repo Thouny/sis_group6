@@ -47,7 +47,7 @@ class AppHeightValues {
   static const double xSmallCollectionCardHeight = 260;
   static const double cardHeight = 276;
   static const double cardImageHeight = 157;
-  static const double sentimentChartHeight = 200;
+  static const double sentimentChartHeight = 250;
   static const double tweetsCardHeight = 400;
   static const double tileHeight = 83;
   static const double mindHackCardHeight = 137;
