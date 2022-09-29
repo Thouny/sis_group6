@@ -70,7 +70,7 @@ extension DefaultRequest on Endpoint {
     if (host.isNotEmpty) {
       final preparedRequest = Request(
         method.name,
-        Uri(scheme: scheme.name, host: host, path: path, query: encodeQueries),
+        Uri.http(host, path, queryParameters),
       );
 
       // Configure Headers
