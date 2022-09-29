@@ -20,7 +20,7 @@ class TweetsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Tweets",
+            DashboardConsts.tweetsCardTitle,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           const SizedBox(

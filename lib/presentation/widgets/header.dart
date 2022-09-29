@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sis_group6/bloc/sentiment/sentiment_bloc.dart';
 import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
+import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/widgets/search_bar.dart';
 
@@ -22,7 +23,7 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Text(
-            "Dashboard",
+            DashboardConsts.headerTitle,
             style: Theme.of(context).textTheme.headline6,
           ),
         if (!Responsive.isMobile(context))
