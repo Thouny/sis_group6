@@ -30,7 +30,10 @@ class _WidgetWrapper extends StatelessWidget {
       home: Scaffold(
         body: Column(
           children: [
-            SentimentChart(data: data),
+            SentimentChart(
+              data: data,
+              positiveSentiment: 1,
+            ),
           ],
         ),
       ),

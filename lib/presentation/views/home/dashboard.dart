@@ -29,14 +29,14 @@ class DashboardView extends StatelessWidget {
                 child: Column(
                   children: [
                     // TODO: Add more cards here
+                    if (Responsive.isMobile(context)) const SentimentDetails(),
+                    if (Responsive.isMobile(context))
+                      const SizedBox(height: AppPaddingValues.smallPadding),
                     const TweetsCard(),
                     const SizedBox(height: AppPaddingValues.smallPadding),
                     const WordCloud(
                       data: mockKeywords,
                     ),
-                    if (Responsive.isMobile(context))
-                      const SizedBox(height: AppPaddingValues.smallPadding),
-                    if (Responsive.isMobile(context)) const SentimentDetails(),
                   ],
                 ),
               ),
