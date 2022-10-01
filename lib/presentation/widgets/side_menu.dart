@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sis_group6/core/consts/app.dart';
-import 'package:sis_group6/presentation/pages/about_us/about_us.dart';
-import 'package:sis_group6/presentation/pages/home/home.dart';
-import 'package:sis_group6/presentation/widgets/search_bar.dart';
+//import 'package:sis_group6/presentation/pages/about_us/about_us.dart';
+//import 'package:sis_group6/presentation/pages/notification/notification.dart';
+//import 'package:sis_group6/presentation/pages/home/home.dart';
+//import 'package:sis_group6/presentation/widgets/search_bar.dart';
 import 'package:routemaster/routemaster.dart';
 
 class SideMenu extends StatelessWidget {
@@ -29,7 +30,9 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.notification,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(2);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.notifications),
@@ -37,7 +40,9 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.profile,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(3);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.account_box),
@@ -45,7 +50,9 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.settings,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(4);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.settings),

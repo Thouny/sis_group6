@@ -8,6 +8,9 @@ class InitialPageRoutes {
   // logged-in routes
   static const home = '/home';
   static const aboutUs = '/aboutus';
+  static const notification = '/notification';
+  static const profile = '/profile';
+  static const settings = '/settings';
   // account
   static const account = '/account';
 }
