@@ -77,9 +77,9 @@ def sentimentAnalysis(query):
   try:
       #get query
       #query = input('Enter your keyword:\n')
-      # PUT QUERY HERE
       queryjson = query + '.json'
       query = '#' + query + ' lang:en'
+      queryList = []
       # max_results = input('Enter how many tweets:\n')
       # max_results = int(max_results)
       max_results = 100
@@ -91,12 +91,14 @@ def sentimentAnalysis(query):
           sentiment=model(tweet.text)
           _, sentiment = torch.max(sentiment, dim=1)
           #print(class_names[sentiment])
+          tweet.data['sentiment'] = class_names[sentiment]
           if sentiment == 1 :
             count = count + 1
-          with open(queryjson,'a',encoding='utf8') as outfile:
-            json.dump(tweet.data, outfile, indent = 4)
+          queryList.append(tweet.data)
   except BaseException as e:
       print('Status Failed On,',str(e))
+  with open(queryjson,'a',encoding='utf8') as outfile:
+            json.dump(queryList, outfile, indent = 4)
   return count
 
 
