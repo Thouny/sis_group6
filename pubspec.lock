@@ -771,9 +771,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-=======
-    version: "0.4.16"
->>>>>>> ac0bf38 (Halfway there for About Us UI)
   twitter_api_core:
     dependency: transitive
     description:
