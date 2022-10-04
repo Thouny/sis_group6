@@ -1,4 +1,4 @@
-#pip install git+https://github.com/tweepy/tweepy.git
+# pip install git+https://github.com/tweepy/tweepy.git
 # pip install transformers
 # pip install torch
 # pip install flask
@@ -78,11 +78,13 @@ def sentimentAnalysis(query):
       #get query
       #query = input('Enter your keyword:\n')
       # PUT QUERY HERE
+      queryjson = query + '.json'
       query = '#' + query + ' lang:en'
       # max_results = input('Enter how many tweets:\n')
       # max_results = int(max_results)
-      max_results = 99
+      max_results = 100
       tweets = client.search_recent_tweets(query= query, max_results = max_results, sort_order='relevancy')
+      query = query + '.json'
       for tweet in tweets.data:
           #print(tweet.text)
           class_names=['negative',"positive"]
@@ -91,12 +93,8 @@ def sentimentAnalysis(query):
           #print(class_names[sentiment])
           if sentiment == 1 :
             count = count + 1
-          with open('tweetsfile.json','a',encoding='utf8') as outfile:
+          with open(queryjson,'a',encoding='utf8') as outfile:
             json.dump(tweet.data, outfile, indent = 4)
-          #if tweet.public_metrics[2] is None:
-          #    print('0')
-          #else:
-          #    print(str(tweet.public_metrics[2]))
   except BaseException as e:
       print('Status Failed On,',str(e))
   return count
