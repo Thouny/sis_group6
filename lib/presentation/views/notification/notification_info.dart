@@ -8,15 +8,12 @@ class NotificationInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // body: Center(
-      body: Column(
+    return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(message),
         ],
         //  ),
-      ),
-    );
+      ); 
   }
 }

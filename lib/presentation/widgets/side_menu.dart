@@ -59,7 +59,7 @@ class SideMenu extends StatelessWidget {
             ),
           ),
           _DrawerListTile(
-            title: AppConsts.aboutus,
+            title: AppConsts.aboutUs,
             press: () {
               tabState.controller.animateTo(1);
             },
