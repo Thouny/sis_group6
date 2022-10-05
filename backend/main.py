@@ -4,6 +4,9 @@
 # pip install flask
 # pip install flask-sqlalchemy
 # pip install flask-restful
+# pip install nltk
+# python -m nltk.downloader stopwords
+# pip install collection
 
 #import libaries for use
 import torch
@@ -15,6 +18,10 @@ import keys
 import json
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from collections import Counter
+from nltk.corpus import stopwords
+import pandas as pd
+import re
 
 #constants for defining the model
 MAX_LENGTH=64
@@ -85,6 +92,7 @@ def sentimentAnalysis(query):
       max_results = 100
       tweets = client.search_recent_tweets(query= query, max_results = max_results, sort_order='relevancy')
       query = query + '.json'
+      stop = stopwords.words('english')
       for tweet in tweets.data:
           #print(tweet.text)
           class_names=['negative',"positive"]
@@ -95,10 +103,19 @@ def sentimentAnalysis(query):
           if sentiment == 1 :
             count = count + 1
           queryList.append(tweet.data)
+          currentTweet = tweet.text.encode('ascii', errors='ignore').decode()
+          with open("Output.txt","a", encoding='utf8') as text_file:
+            text_file.write(currentTweet + '\n')
   except BaseException as e:
       print('Status Failed On,',str(e))
+
   with open(queryjson,'a',encoding='utf8') as outfile:
             json.dump(queryList, outfile, indent = 4)
+
+  words = re.findall(r'\w+', open('Output.txt').read().lower())
+  with open('wordcloud.json','a',encoding='utf8') as outfile:
+          json.dump(Counter(words).most_common(10), outfile)
+
   return count
 
 
@@ -106,10 +123,3 @@ def sentimentAnalysis(query):
 # print(str(count) + ' tweets are positve out of ' + str(max_results))
 # sentimentStat = (count/ max_results) * 100
 # print(str(round(sentimentStat, 2)) + '% postive sentiment')
-
-
-#put in json
-#for tweet in tweets.data:
-
-    #with open('tweetsfile.json','a',encoding='utf8') as outfile:
-      #json.dump(tweet.data, outfile, indent = 4)
