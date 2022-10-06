@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
@@ -40,13 +42,17 @@ class _TweetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: AppHeightValues.tweetsCardHeight,
-      child: BlocBuilder<TweetsBloc, TweetsState>(
+      child: BlocBuilder<SentimentDetailsBloc, SentimentDetailsState>(
         builder: (context, state) {
-          if (state is LoadedTweetsState) {
+          if (state is LoadedSentimentDetailsState) {
             return TweetListCard(tweets: state.tweets);
-          } else if (state is LoadingTweetsState) {
-            const CircularProgressIndicator();
-          } else if (state is FailedTweetsState) {
+          } else if (state is LoadingSentimentDetailsState) {
+            return const Expanded(
+              child: Center(
+                child: SpinKitThreeInOut(color: Colors.white, size: 35),
+              ),
+            );
+          } else if (state is FailedSentimentDetailsState) {
             return Text(state.message);
           }
           return const SizedBox.expand(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sis_group6/core/enums/sentiment.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/domain/entities/tweet.dart';
 
@@ -20,7 +21,11 @@ class TweetListCard extends StatelessWidget {
           return ListTile(
             title: Text(currentTweet.text),
             subtitle: Text(
-              currentTweet.publicMetrics?.likeCount.toString() ?? '',
+              currentTweet.sentiment?.label ?? '',
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  ?.copyWith(color: currentTweet.sentiment?.color),
             ),
           );
         },
