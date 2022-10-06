@@ -130,7 +130,10 @@ def sentimentAnalysis(query):
              'word_cloud': Counter(words).most_common(20),
              }, outfile, indent=4)
 
-    return count
+    return {'sentimentStat': count,
+            'tweets': queryList,
+            'word_cloud': Counter(words).most_common(20),
+            }
 
 
 # print outs for testing
