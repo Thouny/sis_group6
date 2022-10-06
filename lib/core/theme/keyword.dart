@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class KeywordColors {
@@ -12,4 +14,19 @@ class KeywordColors {
   static const Color gray100 = Color(0xFFD5D7DA);
   static const Color gray600 = Color(0xFF60646B);
   static const Color gray = Color(0xFF202124);
+
+  static const List<Color> colors = [
+    yellow,
+    white,
+    blue400,
+    blue600,
+    blue,
+    gray100,
+    gray600,
+    gray,
+  ];
+
+  static Color get random {
+    return colors[Random().nextInt(colors.length)];
+  }
 }
