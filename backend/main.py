@@ -90,6 +90,7 @@ client = tweepy.Client(bearer_token=keys.BEARER,
 
 def sentimentAnalysis(query):
     count = 0
+    total = 0
     try:
         # get query
         #query = input('Enter your keyword:\n')
@@ -113,11 +114,13 @@ def sentimentAnalysis(query):
             tweet.data['sentiment'] = class_names[sentiment]
             if sentiment == 1:
                 count = count + 1
+            total = total + 1
             queryList.append(tweet.data)
             currentTweet = tweet.text.encode('ascii', errors='ignore').decode()
             output.append(currentTweet + '\n')
         with open("Output.txt", "w", encoding='utf8') as text_file:
             text_file.write(str(output) + '\n')
+        positiveSentiment = count / total * 100
     except BaseException as e:
         print('Status Failed On,', str(e))
 
@@ -125,12 +128,12 @@ def sentimentAnalysis(query):
 
     with open('sentiment.json', 'w', encoding='utf8') as outfile:
         json.dump(
-            {'sentimentStat': count,
+            {'sentimentStat': positiveSentiment,
              'tweets': queryList,
              'word_cloud': Counter(words).most_common(20),
              }, outfile, indent=4)
 
-    return {'sentimentStat': count,
+    return {'sentimentStat': positiveSentiment,
             'tweets': queryList,
             'word_cloud': Counter(words).most_common(20),
             }
