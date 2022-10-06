@@ -91,9 +91,12 @@ client = tweepy.Client(bearer_token=keys.BEARER,
 def sentimentAnalysis(query):
     count = 0
     total = 0
+    customStopWords = [query.lower(), 'https', 'n',
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
     try:
         # get query
         #query = input('Enter your keyword:\n')
+
         queryjson = query + '.json'
         query = '#' + query + ' lang:en'
         queryList = []
@@ -124,18 +127,26 @@ def sentimentAnalysis(query):
     except BaseException as e:
         print('Status Failed On,', str(e))
 
+    stopWords = stopwords.words('english')
+
+    for stop in customStopWords:
+        stopWords.append(stop)
     words = re.findall(r'\w+', open('Output.txt').read().lower())
+    for word in list(words):
+        print(word)
+        if word in stopWords:
+            words.remove(word)
 
     with open('sentiment.json', 'w', encoding='utf8') as outfile:
         json.dump(
             {'sentimentStat': positiveSentiment,
              'tweets': queryList,
-             'word_cloud': Counter(words).most_common(20),
+             'word_cloud': Counter(words).most_common(50),
              }, outfile, indent=4)
 
     return {'sentimentStat': positiveSentiment,
             'tweets': queryList,
-            'word_cloud': Counter(words).most_common(20),
+            'word_cloud': Counter(words).most_common(50),
             }
 
 
