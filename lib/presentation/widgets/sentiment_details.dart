@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:sis_group6/bloc/sentiment/sentiment_bloc.dart';
+import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
-import 'package:sis_group6/presentation/models/sentiment_chart/sentiment_chart_data.dart';
+import 'package:sis_group6/presentation/models/sentiment_chart_data.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_chart.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_info_card.dart';
 
@@ -13,9 +13,9 @@ class SentimentDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SentimentBloc, SentimentState>(
+    return BlocBuilder<SentimentDetailsBloc, SentimentDetailsState>(
       builder: (context, state) {
-        if (state is LoadedSentimentState) {
+        if (state is LoadedSentimentDetailsState) {
           return _SentimentCard(
             children: [
               SentimentChart(
@@ -52,7 +52,7 @@ class SentimentDetails extends StatelessWidget {
               ),
             ],
           );
-        } else if (state is LoadingSentimentState) {
+        } else if (state is LoadingSentimentDetailsState) {
           return const _SentimentCard(
             children: [
               Expanded(
@@ -62,7 +62,7 @@ class SentimentDetails extends StatelessWidget {
               ),
             ],
           );
-        } else if (state is FailedSentimentState) {
+        } else if (state is FailedSentimentDetailsState) {
           return _SentimentCard(
             children: [
               Expanded(child: Center(child: Text(state.message))),
