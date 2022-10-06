@@ -13,13 +13,16 @@ class LoadedSentimentState extends SentimentState {
   LoadedSentimentState({
     required this.positiveSentiment,
     required this.negativeSentiment,
+    required this.sentimentOverview,
   });
 
   final int positiveSentiment;
   final int negativeSentiment;
+  final String sentimentOverview;
 
   @override
-  List<Object?> get props => [positiveSentiment, negativeSentiment];
+  List<Object?> get props =>
+      [positiveSentiment, negativeSentiment, sentimentOverview];
 }
 
 class FailedSentimentState extends SentimentState {
