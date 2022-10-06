@@ -4,7 +4,8 @@
 *.pt
 keys.py
 query.json
-tweetsfile.json
+sentiment.json
+Output.txt
 
 # Miscellaneous
 *.class
