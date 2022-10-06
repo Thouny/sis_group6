@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
+import 'package:sis_group6/core/enums/sentiment.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/presentation/models/sentiment_chart_data.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_chart.dart';
@@ -23,32 +24,32 @@ class SentimentDetails extends StatelessWidget {
                   SentimentChartData(
                     'Positive sentiment',
                     state.positiveSentiment,
-                    label: 'Positive',
-                    color: const Color.fromARGB(255, 38, 255, 89),
+                    label: Sentiment.positive.label,
+                    color: Sentiment.positive.color,
                   ),
                   SentimentChartData(
                     'Negative sentiment',
                     state.negativeSentiment,
-                    label: 'Negative',
-                    color: const Color(0xFFEE2727),
+                    label: Sentiment.negative.label,
+                    color: Sentiment.negative.color,
                   )
                 ],
                 positiveSentiment: state.positiveSentiment,
               ),
               SentimentInfoCard(
-                title: "Positive",
+                title: Sentiment.positive.label,
                 percentage: "${state.positiveSentiment}%",
-                tweetCounts: 132,
-                icon: const Icon(
+                tweetCounts: state.positiveCount,
+                icon: Icon(
                   Icons.thumb_up,
-                  color: Color.fromARGB(255, 38, 255, 89),
+                  color: Sentiment.positive.color,
                 ),
               ),
               SentimentInfoCard(
-                title: "Negative",
+                title: Sentiment.negative.label,
                 percentage: "${state.negativeSentiment}%",
-                tweetCounts: 58,
-                icon: const Icon(Icons.thumb_down, color: Color(0xFFEE2727)),
+                tweetCounts: state.negativeCount,
+                icon: Icon(Icons.thumb_down, color: Sentiment.negative.color),
               ),
             ],
           );
@@ -119,10 +120,7 @@ class _CardTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Text(
       DashboardConsts.sentimentChartTitle,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      ),
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
     );
   }
 }
