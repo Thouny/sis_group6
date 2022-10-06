@@ -133,7 +133,6 @@ def sentimentAnalysis(query):
         stopWords.append(stop)
     words = re.findall(r'\w+', open('Output.txt').read().lower())
     for word in list(words):
-        print(word)
         if word in stopWords:
             words.remove(word)
 
