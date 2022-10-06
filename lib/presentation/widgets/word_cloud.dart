@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scatter/flutter_scatter.dart';
 import 'package:sis_group6/core/theme/app.dart';
-import 'package:sis_group6/mock/keyword_data.dart';
-import 'package:sis_group6/presentation/models/word_cloud/word_cloud.dart';
+import 'package:sis_group6/presentation/models/keyword.dart';
 
 class WordCloud extends StatelessWidget {
   const WordCloud({Key? key, required this.data}) : super(key: key);
 
-  final List<Keyword> data;
+  final List<KeywordModel> data;
 
   static const keyPrefix = 'WordCloud';
 
-  List<Widget> _generateScatterItems(List<Keyword> keywords) {
+  List<Widget> _generateScatterItems(List<KeywordModel> keywords) {
     List<Widget> widgets = <Widget>[];
     for (var i = 0; i < data.length; i++) {
-      widgets.add(_ScatterItem(mockKeywords[i], i));
+      widgets.add(_ScatterItem(data[i], i));
     }
     return widgets;
   }
@@ -53,7 +52,7 @@ class WordCloud extends StatelessWidget {
 class _ScatterItem extends StatelessWidget {
   const _ScatterItem(this.keyword, this.index, {Key? key}) : super(key: key);
 
-  final Keyword keyword;
+  final KeywordModel keyword;
   final int index;
 
   @override

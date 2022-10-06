@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sis_group6/presentation/models/sentiment_chart/sentiment_chart_data.dart';
+import 'package:sis_group6/presentation/models/sentiment_chart_data.dart';
 
 final mockData = [
   const SentimentChartData('Positive', 0.7, label: '70%', color: Colors.green),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
-import 'package:sis_group6/mock/keyword_data.dart';
 import 'package:sis_group6/presentation/views/home/tweets_card.dart';
 import 'package:sis_group6/presentation/widgets/header.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_details.dart';
@@ -35,7 +34,7 @@ class DashboardView extends StatelessWidget {
                     const TweetsCard(),
                     const SizedBox(height: AppPaddingValues.smallPadding),
                     const WordCloud(
-                      data: mockKeywords,
+                      data: [],
                     ),
                   ],
                 ),
