@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:sis_group6/core/enums/sentiment.dart';
 import 'package:twitter_api_v2/twitter_api_v2.dart';
 
 class TweetEntity extends Equatable {
@@ -9,6 +10,7 @@ class TweetEntity extends Equatable {
     this.language,
     this.createdAt,
     this.publicMetrics,
+    this.sentiment,
   });
 
   factory TweetEntity.from(TweetData data) {
@@ -19,6 +21,14 @@ class TweetEntity extends Equatable {
       language: data.lang,
       createdAt: data.createdAt,
       publicMetrics: data.publicMetrics,
+    );
+  }
+
+  factory TweetEntity.fromMap(Map<String, dynamic> data) {
+    return TweetEntity(
+      id: data['id'],
+      text: data['text'],
+      sentiment: SentimentConverter.convertFrom(data['sentiment']),
     );
   }
 
@@ -36,6 +46,8 @@ class TweetEntity extends Equatable {
 
   final PublicTweetMetrics? publicMetrics;
 
+  final Sentiment? sentiment;
+
   @override
   List<Object?> get props => [
         id,
@@ -44,5 +56,6 @@ class TweetEntity extends Equatable {
         language,
         createdAt,
         publicMetrics,
+        sentiment,
       ];
 }
