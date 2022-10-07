@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sis_group6/bloc/sentiment/sentiment_bloc.dart';
+import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
@@ -13,7 +13,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tweetsBloc = BlocProvider.of<TweetsBloc>(context);
-    final sentimentBloc = BlocProvider.of<SentimentBloc>(context);
+    final sentimentBloc = BlocProvider.of<SentimentDetailsBloc>(context);
     return Row(
       children: [
         if (!Responsive.isDesktop(context))
@@ -33,7 +33,7 @@ class Header extends StatelessWidget {
             onSubmitted: (value) {
               if (value.isNotEmpty) {
                 tweetsBloc.add(SearchTweetsEvent(value));
-                sentimentBloc.add(GetSentimentEvent(query: value));
+                sentimentBloc.add(GetSentimentDetailsEvent(query: value));
               }
             },
           ),

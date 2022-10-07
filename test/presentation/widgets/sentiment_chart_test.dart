@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sis_group6/presentation/models/sentiment_chart/sentiment_chart_data.dart';
+import 'package:sis_group6/presentation/models/sentiment_chart_data.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_chart.dart';
 
 import '../../fixtures/sentiment_chart_data.dart';

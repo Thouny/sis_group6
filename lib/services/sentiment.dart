@@ -10,7 +10,7 @@ import 'package:sis_group6/infrastructure/network/models/post_sentiment_response
 class SentimentService {
   final _networkClient = GetIt.I<NetworkClient>();
 
-  Future<int?> getSentiment(String query) async {
+  Future<GetSentimentResponse?> getSentiment(String query) async {
     try {
       final postEndpoint = PostSentiment(query: query);
       const getEndpoint = GetSentiment();
@@ -19,7 +19,8 @@ class SentimentService {
           .send<PostSentimentResponse, PostSentiment>(postEndpoint);
       final response = await _networkClient
           .send<GetSentimentResponse, GetSentiment>(getEndpoint);
-      return response.sentimentStat;
+
+      return response;
     } catch (err, stack) {
       // ignore: avoid_print
       print(err);

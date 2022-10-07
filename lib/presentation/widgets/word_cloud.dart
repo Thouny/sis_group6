@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_scatter/flutter_scatter.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
+import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
-import 'package:sis_group6/mock/keyword_data.dart';
-import 'package:sis_group6/presentation/models/word_cloud/word_cloud.dart';
+import 'package:sis_group6/presentation/models/keyword.dart';
 
 class WordCloud extends StatelessWidget {
-  const WordCloud({Key? key, required this.data}) : super(key: key);
-
-  final List<Keyword> data;
+  const WordCloud({Key? key}) : super(key: key);
 
   static const keyPrefix = 'WordCloud';
 
-  List<Widget> _generateScatterItems(List<Keyword> keywords) {
+  List<Widget> _generateScatterItems(List<KeywordModel> keywords) {
     List<Widget> widgets = <Widget>[];
-    for (var i = 0; i < data.length; i++) {
-      widgets.add(_ScatterItem(mockKeywords[i], i));
+    for (var i = 0; i < keywords.length; i++) {
+      widgets.add(_ScatterItem(keywords[i], i));
     }
     return widgets;
   }
@@ -36,11 +37,30 @@ class WordCloud extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
             child: FittedBox(
-              child: Scatter(
-                key: const Key(keyPrefix),
-                fillGaps: true,
-                delegate: ArchimedeanSpiralScatterDelegate(ratio: ratio),
-                children: _generateScatterItems(data),
+              child: BlocBuilder<SentimentDetailsBloc, SentimentDetailsState>(
+                builder: (context, state) {
+                  if (state is LoadingSentimentDetailsState) {
+                    return const SpinKitThreeInOut(
+                      color: Colors.white,
+                      size: 35,
+                    );
+                  } else if (state is LoadedSentimentDetailsState) {
+                    return Scatter(
+                      key: const Key(keyPrefix),
+                      fillGaps: true,
+                      delegate: ArchimedeanSpiralScatterDelegate(ratio: ratio),
+                      children: _generateScatterItems(state.keywords),
+                    );
+                  } else {
+                    return const Text(
+                      DashboardConsts.emptyCardText,
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    );
+                  }
+                },
               ),
             ),
           ),
@@ -53,7 +73,7 @@ class WordCloud extends StatelessWidget {
 class _ScatterItem extends StatelessWidget {
   const _ScatterItem(this.keyword, this.index, {Key? key}) : super(key: key);
 
-  final Keyword keyword;
+  final KeywordModel keyword;
   final int index;
 
   @override

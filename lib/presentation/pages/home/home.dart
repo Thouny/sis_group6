@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sis_group6/bloc/sentiment/sentiment_bloc.dart';
+import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/presentation/pages/app.dart';
 import 'package:sis_group6/presentation/views/home/home.dart';
@@ -28,7 +28,7 @@ class HomePage extends AppPage<void> {
                 create: (context) => TweetsBloc(),
               ),
               BlocProvider(
-                create: (context) => SentimentBloc(),
+                create: (context) => SentimentDetailsBloc(),
               ),
             ],
             child: const HomeView(),
