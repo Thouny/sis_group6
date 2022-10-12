@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/views/profile/profile_info.dart';
 import 'package:sis_group6/presentation/widgets/side_menu.dart';
+import 'package:sis_group6/presentation/widgets/header.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class ProfileView extends StatelessWidget {
             flex: 5,
             child: ProfileInfoView(),
           ),
+          const Header(headerTitle: 'Profile', isDashboard: false)
         ],
       ),
     );

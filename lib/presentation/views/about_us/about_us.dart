@@ -27,7 +27,7 @@ class AboutUsView extends StatelessWidget {
             flex: 5,
             child: AboutUsInfoView(),
           ),
-          // const Header(headerTitle: 'About Us', isDashboard: false)
+          const Header(headerTitle: 'About Us', isDashboard: false)
         ],
       ),
     );

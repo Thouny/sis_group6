@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/views/settings/settings_info.dart';
 import 'package:sis_group6/presentation/widgets/side_menu.dart';
+import 'package:sis_group6/presentation/widgets/header.dart';
 
 class SettingView extends StatelessWidget {
   const SettingView({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class SettingView extends StatelessWidget {
             flex: 5,
             child: SettingsInfoView(),
           ),
+          const Header(headerTitle: 'Settings', isDashboard: false)
         ],
       ),
     );
