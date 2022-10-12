@@ -3,17 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
-import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/widgets/search_bar.dart';
 
 class Header extends StatelessWidget {
-  const Header({Key? key}) : super(key: key);
+  const Header({
+    Key? key,
+    required this.headerTitle,
+    required this.isDashboard,
+  }) : super(key: key);
+
+  final String headerTitle;
+  final bool isDashboard;
 
   @override
   Widget build(BuildContext context) {
-    final tweetsBloc = BlocProvider.of<TweetsBloc>(context);
-    final sentimentBloc = BlocProvider.of<SentimentDetailsBloc>(context);
     return Row(
       children: [
         if (!Responsive.isDesktop(context))
@@ -23,21 +27,26 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Text(
-            DashboardConsts.headerTitle,
+            headerTitle,
             style: Theme.of(context).textTheme.headline6,
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        Expanded(
-          child: SearchBar(
-            onSubmitted: (value) {
-              if (value.isNotEmpty) {
-                tweetsBloc.add(SearchTweetsEvent(value));
-                sentimentBloc.add(GetSentimentDetailsEvent(query: value));
-              }
-            },
-          ),
-        ),
+        if (isDashboard)
+          Expanded(
+            child: SearchBar(
+              onSubmitted: (value) {
+                if (value.isNotEmpty) {
+                  BlocProvider.of<TweetsBloc>(context).add(
+                    SearchTweetsEvent(value),
+                  );
+                  BlocProvider.of<SentimentDetailsBloc>(context).add(
+                    GetSentimentDetailsEvent(query: value),
+                  );
+                }
+              },
+            ),
+          )
       ],
     );
   }

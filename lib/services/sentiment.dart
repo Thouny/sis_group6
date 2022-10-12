@@ -21,7 +21,7 @@ class SentimentService {
           .send<GetSentimentResponse, GetSentiment>(getEndpoint);
 
       return response;
-    } catch (err, stack) {
+    } catch (err) {
       // ignore: avoid_print
       print(err);
       return null;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/views/home/tweets_card.dart';
@@ -18,7 +19,10 @@ class DashboardView extends StatelessWidget {
       padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
       child: Column(
         children: [
-          const Header(),
+          const Header(
+            headerTitle: DashboardConsts.headerTitle,
+            isDashboard: true,
+          ),
           const SizedBox(height: AppPaddingValues.smallPadding),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

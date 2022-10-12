@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
-import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/presentation/widgets/tweet_list_card.dart';

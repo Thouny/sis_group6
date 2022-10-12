@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sis_group6/core/consts/app.dart';
+import 'package:routemaster/routemaster.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final tabState = TabPage.of(context);
     return Drawer(
       child: ListView(
         children: [
@@ -14,7 +16,9 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.dashboard,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(0);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.dashboard_rounded),
@@ -22,7 +26,9 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.notification,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(2);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.notifications),
@@ -30,7 +36,9 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.profile,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(3);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.account_box),
@@ -38,10 +46,22 @@ class SideMenu extends StatelessWidget {
           ),
           _DrawerListTile(
             title: AppConsts.settings,
-            press: () {},
+            press: () {
+              tabState.controller.animateTo(4);
+            },
             icon: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.settings),
+            ),
+          ),
+          _DrawerListTile(
+            title: AppConsts.aboutUs,
+            press: () {
+              tabState.controller.animateTo(1);
+            },
+            icon: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.supervised_user_circle),
             ),
           ),
         ],
