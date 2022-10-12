@@ -11,17 +11,18 @@ class AboutUsInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        primary: false,
-        padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Header(
-              headerTitle: AboutUsConsts.headerTitle,
-              isDashboard: false,
-            ),
-            Text(AboutUsConsts.message),
-          ],
-        ));
+      primary: false,
+      padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Header(
+            headerTitle: AboutUsConsts.headerTitle,
+            isDashboard: false,
+          ),
+          Text(AboutUsConsts.message),
+        ],
+      ),
+    );
   }
 }

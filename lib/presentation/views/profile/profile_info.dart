@@ -9,17 +9,18 @@ class ProfileInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        primary: false,
-        padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Header(
-              headerTitle: ProfileConsts.headerTitle,
-              isDashboard: false,
-            ),
-            Text(ProfileConsts.message),
-          ],
-        ));
+      primary: false,
+      padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Header(
+            headerTitle: ProfileConsts.headerTitle,
+            isDashboard: false,
+          ),
+          Text(ProfileConsts.message),
+        ],
+      ),
+    );
   }
 }

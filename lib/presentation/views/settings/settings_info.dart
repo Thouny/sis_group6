@@ -11,17 +11,18 @@ class SettingsInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        primary: false,
-        padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Header(
-              headerTitle: SettingsConsts.headerTitle,
-              isDashboard: false,
-            ),
-            Text(SettingsConsts.message),
-          ],
-        ));
+      primary: false,
+      padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Header(
+            headerTitle: SettingsConsts.headerTitle,
+            isDashboard: false,
+          ),
+          Text(SettingsConsts.message),
+        ],
+      ),
+    );
   }
 }
