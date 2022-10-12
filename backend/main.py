@@ -7,6 +7,7 @@
 # pip install nltk
 # python -m nltk.downloader stopwords
 # pip install collection
+# pip install requests
 
 # import libaries for use
 import torch
@@ -16,11 +17,8 @@ from http import client
 import tweepy
 import keys
 import json
-from flask import Flask
-from flask_restful import Resource, Api, reqparse
 from collections import Counter
 from nltk.corpus import stopwords
-import pandas as pd
 import re
 
 # constants for defining the model
@@ -43,9 +41,6 @@ class SentimentClassifier(nn.Module):
         self.drop = nn.Dropout(p=0.3).to(self.device)
         self.out = nn.Linear(self.bert.config.hidden_size,
                              n_classes).to(self.device)
-        # Optional: Freeze the BERT model
-        # for param in self.bert.parameters():
-        #   param.requires_grad = False
         self.max_length = max_length
 
     def pre_process_data(self, text):
@@ -78,7 +73,7 @@ class SentimentClassifier(nn.Module):
 model = SentimentClassifier(2, max_length=MAX_LENGTH, device=device)
 model.load_state_dict(torch.load('testmodel.pt'))
 
-# Passing auth key that has from key.py that has been exculuded from github
+# Passing auth key from key.py that has been exculuded from github
 client = tweepy.Client(bearer_token=keys.BEARER,
                        consumer_key=keys.CONSUMER_KEY,
                        consumer_secret=keys.CONSUMER_SECRET,
@@ -96,8 +91,6 @@ def sentimentAnalysis(query):
     try:
         # get query
         #query = input('Enter your keyword:\n')
-
-        queryjson = query + '.json'
         query = '#' + query + ' lang:en'
         queryList = []
         # max_results = input('Enter how many tweets:\n')
