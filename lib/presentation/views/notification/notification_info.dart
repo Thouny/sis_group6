@@ -15,8 +15,8 @@ class NotificationInfoView extends StatelessWidget {
       padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          const Header(
+        children: const [
+          Header(
             headerTitle: NotificationConsts.headerTitle,
             isDashboard: false,
           ),
