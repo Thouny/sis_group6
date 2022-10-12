@@ -15,8 +15,8 @@ class AboutUsInfoView extends StatelessWidget {
       padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          const Header(
+        children: const [
+          Header(
             headerTitle: AboutUsConsts.headerTitle,
             isDashboard: false,
           ),

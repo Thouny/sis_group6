@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/views/notification/notification_info.dart';
 import 'package:sis_group6/presentation/widgets/side_menu.dart';
+import 'package:sis_group6/presentation/widgets/header.dart';
 
 class NotificationView extends StatelessWidget {
   const NotificationView({Key? key}) : super(key: key);

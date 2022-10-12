@@ -15,8 +15,8 @@ class SettingsInfoView extends StatelessWidget {
       padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          const Header(
+        children: const [
+          Header(
             headerTitle: SettingsConsts.headerTitle,
             isDashboard: false,
           ),
