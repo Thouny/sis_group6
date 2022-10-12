@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sis_group6/core/consts/app.dart';
-//import 'package:sis_group6/presentation/pages/about_us/about_us.dart';
-//import 'package:sis_group6/presentation/pages/notification/notification.dart';
-//import 'package:sis_group6/presentation/pages/home/home.dart';
-//import 'package:sis_group6/presentation/widgets/search_bar.dart';
 import 'package:routemaster/routemaster.dart';
 
 class SideMenu extends StatelessWidget {
