@@ -6,6 +6,7 @@ import 'package:sis_group6/presentation/views/home/tweets_card.dart';
 import 'package:sis_group6/presentation/widgets/header.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_details.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_overview.dart';
+import 'package:sis_group6/presentation/widgets/sentiment_over_time_graph.dart';
 import 'package:sis_group6/presentation/widgets/word_cloud.dart';
 
 class DashboardView extends StatelessWidget {
@@ -37,6 +38,7 @@ class DashboardView extends StatelessWidget {
                     if (Responsive.isMobile(context))
                       const SizedBox(height: AppPaddingValues.smallPadding),
                     const TweetsCard(),
+                    const SentimentOverTimeGraph(),
                     const SizedBox(height: AppPaddingValues.smallPadding),
                     const WordCloud(),
                     if (Responsive.isMobile(context))
