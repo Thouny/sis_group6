@@ -36,8 +36,8 @@ class SentimentDetailsBloc
         final tweets = _filterRetweets(result.tweets);
         final keywords = _generateKeywordModels(result.wordClouds);
 
-        final positiveCount = _getCount(tweets, Sentiment.positive);
-        final negativeCount = _getCount(tweets, Sentiment.negative);
+        final positiveCount = _getCount(result.tweets, Sentiment.positive);
+        final negativeCount = _getCount(result.tweets, Sentiment.negative);
 
         emit(LoadedSentimentDetailsState(
           positiveSentiment: positiveSentiment,
