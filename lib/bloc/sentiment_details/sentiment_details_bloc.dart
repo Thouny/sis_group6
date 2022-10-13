@@ -33,7 +33,7 @@ class SentimentDetailsBloc
         final positiveSentiment = result.sentimentStat.ceil();
         final negativeSentiment = 100 - positiveSentiment;
 
-        final tweets = result.tweets;
+        final tweets = _filterRetweets(result.tweets);
         final keywords = _generateKeywordModels(result.wordClouds);
 
         final positiveCount = _getCount(tweets, Sentiment.positive);
@@ -79,5 +79,15 @@ extension _Helpers on SentimentDetailsBloc {
       }
     }
     return count;
+  }
+
+  List<TweetEntity> _filterRetweets(List<TweetEntity> tweets) {
+    final filteredTweets = <TweetEntity>[];
+    for (final tweet in tweets) {
+      if (!tweet.text.contains('RT ')) {
+        filteredTweets.add(tweet);
+      }
+    }
+    return filteredTweets;
   }
 }
