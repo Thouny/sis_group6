@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/views/about_us/about_us_info.dart';
 import 'package:sis_group6/presentation/widgets/side_menu.dart';
-import 'package:sis_group6/presentation/widgets/header.dart';
 
 class AboutUsView extends StatelessWidget {
   const AboutUsView({Key? key}) : super(key: key);

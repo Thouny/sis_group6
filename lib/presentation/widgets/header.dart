@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
-import 'package:sis_group6/bloc/tweets/tweets_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/widgets/search_bar.dart';
@@ -37,9 +36,6 @@ class Header extends StatelessWidget {
             child: SearchBar(
               onSubmitted: (value) {
                 if (value.isNotEmpty) {
-                  BlocProvider.of<TweetsBloc>(context).add(
-                    SearchTweetsEvent(value),
-                  );
                   BlocProvider.of<SentimentDetailsBloc>(context).add(
                     GetSentimentDetailsEvent(query: value),
                   );
