@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:sis_group6/domain/repositories/sentiment.dart';
 import 'package:sis_group6/infrastructure/network/client/app.dart';
 import 'package:sis_group6/infrastructure/network/client/network.dart';
+import 'package:sis_group6/services/open_ai.dart';
 import 'package:sis_group6/services/sentiment.dart';
 
 typedef AppRunner = void Function();
@@ -21,6 +22,7 @@ class Injector {
     _injectDatabase();
     _injectServices();
     _injectRepositories();
+    _injectOpenAIService();
   }
 }
 
@@ -41,4 +43,8 @@ void _injectRepositories() {
 
 void _injectServices() {
   GetIt.I.registerLazySingleton<SentimentService>(() => SentimentService());
+}
+
+void _injectOpenAIService() {
+  GetIt.I.registerLazySingleton<OpenAIService>(() => OpenAIService());
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
+import 'package:sis_group6/bloc/sentiment_overview/sentiment_overview_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/widgets/search_bar.dart';
@@ -38,6 +39,9 @@ class Header extends StatelessWidget {
                 if (value.isNotEmpty) {
                   BlocProvider.of<SentimentDetailsBloc>(context).add(
                     GetSentimentDetailsEvent(query: value),
+                  );
+                  BlocProvider.of<SentimentOverviewBloc>(context).add(
+                    GetSentimentOverview(query: value),
                   );
                 }
               },

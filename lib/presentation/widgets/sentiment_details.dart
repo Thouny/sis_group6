@@ -99,7 +99,7 @@ class _SentimentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 455,
       padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
       decoration: const BoxDecoration(
         color: AppColors.secondaryColor,
