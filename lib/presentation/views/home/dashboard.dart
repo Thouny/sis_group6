@@ -37,13 +37,14 @@ class DashboardView extends StatelessWidget {
                     if (Responsive.isMobile(context)) const SentimentDetails(),
                     if (Responsive.isMobile(context))
                       const SizedBox(height: AppPaddingValues.smallPadding),
-                    const TweetsCard(),
                     const SentimentOverTimeGraph(),
                     const SizedBox(height: AppPaddingValues.smallPadding),
                     const WordCloud(),
                     if (Responsive.isMobile(context))
                       const SizedBox(height: AppPaddingValues.smallPadding),
                     if (Responsive.isMobile(context)) const SentimentOverview(),
+                    const SizedBox(height: AppPaddingValues.smallPadding),
+                    const TweetsCard(),
                   ],
                 ),
               ),
