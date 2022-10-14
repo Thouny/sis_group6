@@ -5,6 +5,7 @@ import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/views/home/tweets_card.dart';
 import 'package:sis_group6/presentation/widgets/header.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_details.dart';
+import 'package:sis_group6/presentation/widgets/sentiment_overview.dart';
 import 'package:sis_group6/presentation/widgets/word_cloud.dart';
 
 class DashboardView extends StatelessWidget {
@@ -38,13 +39,25 @@ class DashboardView extends StatelessWidget {
                     const TweetsCard(),
                     const SizedBox(height: AppPaddingValues.smallPadding),
                     const WordCloud(),
+                    if (Responsive.isMobile(context))
+                      const SizedBox(height: AppPaddingValues.smallPadding),
+                    if (Responsive.isMobile(context)) const SentimentOverview(),
                   ],
                 ),
               ),
               if (!Responsive.isMobile(context))
                 const SizedBox(width: AppPaddingValues.smallPadding),
               if (!Responsive.isMobile(context))
-                const Expanded(flex: 2, child: SentimentDetails()),
+                Flexible(
+                  flex: 2,
+                  child: Column(
+                    children: const [
+                      SentimentDetails(),
+                      SizedBox(height: AppPaddingValues.smallPadding),
+                      SentimentOverview(),
+                    ],
+                  ),
+                ),
             ],
           ),
         ],
