@@ -39,6 +39,9 @@ class DashboardView extends StatelessWidget {
                     const TweetsCard(),
                     const SizedBox(height: AppPaddingValues.smallPadding),
                     const WordCloud(),
+                    if (Responsive.isMobile(context))
+                      const SizedBox(height: AppPaddingValues.smallPadding),
+                    if (Responsive.isMobile(context)) const SentimentOverview(),
                   ],
                 ),
               ),
