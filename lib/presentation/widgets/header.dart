@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/bloc/sentiment_overview/sentiment_overview_bloc.dart';
+import 'package:sis_group6/bloc/sentiment_over_time/sentiment_over_time_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
 import 'package:sis_group6/presentation/widgets/search_bar.dart';
@@ -42,6 +43,9 @@ class Header extends StatelessWidget {
                   );
                   BlocProvider.of<SentimentOverviewBloc>(context).add(
                     GetSentimentOverview(query: value),
+                  );
+                  BlocProvider.of<SentimentOverTimeBloc>(context).add(
+                    GetSentimentFromLastSevenDaysEvent(query: value),
                   );
                 }
               },

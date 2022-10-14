@@ -22,6 +22,7 @@ from collections import Counter
 from nltk.corpus import stopwords
 import pandas as pd
 import re
+import datetime
 
 # constants for defining the model
 MAX_LENGTH = 64
@@ -146,6 +147,74 @@ def sentimentAnalysis(query):
     return {'sentimentStat': positiveSentiment,
             'tweets': queryList,
             'word_cloud': Counter(words).most_common(50),
+            }
+
+
+def sentimentAnalysisAtDate(query, daysToSubstract):
+    count = 0
+    total = 0
+    customStopWords = [query.lower(), 'https', 'n',
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
+    try:
+        query = '#' + query + ' lang:en'
+        queryList = []
+        max_results = 100
+        if (int(daysToSubstract) == 1):
+            today = datetime.datetime.now(datetime.timezone.utc)
+            daysToMinus = datetime.timedelta(days=int(daysToSubstract))
+            start_day = today - daysToMinus
+            tweets = client.search_recent_tweets(
+                query=query, max_results=max_results, sort_order='relevancy', start_time=start_day)
+        else:
+            daysToMinus = datetime.timedelta(days=int(daysToSubstract))
+            today = datetime.datetime.now(datetime.timezone.utc)
+            start_day = today - daysToMinus
+            end_day = start_day + datetime.timedelta(days=1)
+            tweets = client.search_recent_tweets(
+                query=query, max_results=max_results, sort_order='relevancy', start_time=start_day, end_time=end_day)
+
+        query = query + '.json'
+        stop = stopwords.words('english')
+        output = []
+        for tweet in tweets.data:
+            # print(tweet.text)
+            class_names = ['negative', "positive"]
+            sentiment = model(tweet.text)
+            _, sentiment = torch.max(sentiment, dim=1)
+            tweet.data['sentiment'] = class_names[sentiment]
+            if sentiment == 1:
+                count = count + 1
+            total = total + 1
+            queryList.append(tweet.data)
+            currentTweet = tweet.text.encode('ascii', errors='ignore').decode()
+            output.append(currentTweet + '\n')
+        with open("Output.txt", "w", encoding='utf8') as text_file:
+            text_file.write(str(output) + '\n')
+        positiveSentiment = count / total * 100
+    except BaseException as e:
+        print('Status Failed On,', str(e))
+
+    stopWords = stopwords.words('english')
+
+    for stop in customStopWords:
+        stopWords.append(stop)
+    words = re.findall(r'\w+', open('Output.txt').read().lower())
+    for word in list(words):
+        if word in stopWords:
+            words.remove(word)
+
+    with open('sentiment_at_date.json', 'w', encoding='utf8') as outfile:
+        json.dump(
+            {'sentimentStat': positiveSentiment,
+             'tweets': queryList,
+             'word_cloud': Counter(words).most_common(50),
+             'date': start_day.strftime('%Y-%m-%dT%H:%M:%S.%f')
+             }, outfile, indent=4)
+
+    return {'sentimentStat': positiveSentiment,
+            'tweets': queryList,
+            'word_cloud': Counter(words).most_common(50),
+            'date': start_day.strftime('%Y-%m-%dT%H:%M:%S.%f')
             }
 
 

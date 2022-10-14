@@ -10,55 +10,50 @@ import 'package:sis_group6/domain/entities/keyword.dart';
 import 'package:sis_group6/domain/entities/tweet.dart';
 import 'package:sis_group6/domain/repositories/sentiment.dart';
 import 'package:sis_group6/presentation/models/keyword.dart';
+import 'package:sis_group6/presentation/models/sentiment_at_date_graph_data.dart';
 
-part 'sentiment_details_event.dart';
-part 'sentiment_details_state.dart';
+part 'sentiment_over_time_event.dart';
+part 'sentiment_over_time_state.dart';
 
-class SentimentDetailsBloc
-    extends Bloc<SentimentDetailsEvent, SentimentDetailsState> {
-  SentimentDetailsBloc() : super(InitialSentimentDetailsState()) {
-    on<GetSentimentDetailsEvent>(_onGetSentiment);
+class SentimentOverTimeBloc
+    extends Bloc<SentimentOverTimeEvent, SentimentOverTimeState> {
+  SentimentOverTimeBloc() : super(InitialSentimentOverTimeState()) {
+    on<GetSentimentFromLastSevenDaysEvent>(_onGetSentiment);
   }
 
   final _sentimentRepo = GetIt.I<SentimentRepository>();
 
   FutureOr<void> _onGetSentiment(
-    GetSentimentDetailsEvent event,
-    Emitter<SentimentDetailsState> emit,
+    GetSentimentFromLastSevenDaysEvent event,
+    Emitter<SentimentOverTimeState> emit,
   ) async {
     try {
-      emit(LoadingSentimentDetailsState());
-      final result = await _sentimentRepo.getSentiment(event.query);
-      if (result != null) {
-        final positiveSentiment = result.sentimentStat.ceil();
-        final negativeSentiment = 100 - positiveSentiment;
-
-        final tweets = _filterRetweets(result.tweets);
-        final keywords = _generateKeywordModels(result.wordClouds);
-
-        final positiveCount = _getCount(result.tweets, Sentiment.positive);
-        final negativeCount = _getCount(result.tweets, Sentiment.negative);
-
-        emit(LoadedSentimentDetailsState(
-          positiveSentiment: positiveSentiment,
-          positiveCount: positiveCount,
-          negativeSentiment: negativeSentiment,
-          negativeCount: negativeCount,
-          tweets: tweets,
-          keywords: keywords,
+      emit(LoadingSentimentOverTimeState());
+      final today = DateTime.now().toUtc();
+      final sentimentOverTime = <SentimentAtDateGraphData>[];
+      for (var i = 1; i <= 7; i++) {
+        final result = await _sentimentRepo.getSentimentAtDate(
+          event.query,
+          daysToSubstract: i,
+        );
+        final date = DateTime(today.year, today.month, today.day - i);
+        sentimentOverTime.add(SentimentAtDateGraphData(
+          date,
+          result?.sentimentStat.truncateToDouble(),
         ));
-      } else {
-        emit(FailedSentimentDetailsState('No data available'));
       }
+
+      emit(LoadedSentimentOverTimeState(sentimentOverTime: sentimentOverTime));
     } catch (err) {
       // ignore: avoid_print
       print(err.toString());
-      emit(FailedSentimentDetailsState(err.toString()));
+      emit(FailedSentimentOverTimeState(err.toString()));
     }
   }
 }
 
-extension _Helpers on SentimentDetailsBloc {
+extension _Helpers on SentimentOverTimeBloc {
+  // ignore: unused_element
   List<KeywordModel> _generateKeywordModels(List<KeywordEntity> entities) {
     final keywords = <KeywordModel>[];
     for (var entity in entities) {
@@ -71,6 +66,7 @@ extension _Helpers on SentimentDetailsBloc {
     return keywords;
   }
 
+  // ignore: unused_element
   int _getCount(List<TweetEntity> tweets, Sentiment sentiment) {
     var count = 0;
     for (final tweet in tweets) {
@@ -81,6 +77,7 @@ extension _Helpers on SentimentDetailsBloc {
     return count;
   }
 
+  // ignore: unused_element
   List<TweetEntity> _filterRetweets(List<TweetEntity> tweets) {
     final filteredTweets = <TweetEntity>[];
     for (final tweet in tweets) {
