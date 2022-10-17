@@ -234,8 +234,8 @@ def sentimentAnalysisReddit(query):
         #count loop to go through all 100 comments and pull data and get sentiment
         while i < 100:
             class_names = ['negative', "positive"]
-            currentComment = json.dumps(redditComments['data']['children'][i]['data']['body'])
-            currentAuthor = json.dumps(redditComments['data']['children'][i]['data']['author'])
+            currentComment = redditComments['data']['children'][i]['data']['body']
+            currentAuthor = redditComments['data']['children'][i]['data']['author']
             sentiment = model(currentComment)
             _, sentiment = torch.max(sentiment, dim=1)
             #append sentiment to dictonary
