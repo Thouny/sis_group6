@@ -21,6 +21,7 @@ from collections import Counter
 from nltk.corpus import stopwords
 import re
 import datetime
+import requests
 
 # constants for defining the model
 MAX_LENGTH = 64
@@ -208,6 +209,56 @@ def sentimentAnalysisAtDate(query, daysToSubstract):
             'tweets': queryList,
             'word_cloud': Counter(words).most_common(50),
             'date': start_day.strftime('%Y-%m-%dT%H:%M:%S.%f')
+            }
+
+#will take in the query as well json should already be created
+def sentimentAnalysisReddit(query):
+    count = 0
+    total = 0
+    try:
+        #set the link we are requesting from
+        headers = {
+            'user-agent': 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_8_7 rv:5.0; en-US) AppleWebKit/533.31.5 (KHTML, like Gecko) Version/4.0 Safari/533.31.5',
+        }
+        query = 'https://www.reddit.com/r/' + query + '/comments.json'
+        queryList = []
+        output = []
+        #this should be a dict 
+        redditComments = ['I love product', 'I hate product']
+        #------------------Create extracted dictonary from json ------------------------
+        redditComments = requests.get(query, headers=headers)
+        #------------------Create extracted dictonary from json ------------------------
+        for comment in redditComments:
+            class_names = ['negative', "positive"]
+            sentiment = model(comment)
+            _, sentiment = torch.max(sentiment, dim=1)
+            #append sentiment to dictonary
+            #redditComments['sentiment'] = class_names[sentiment]
+            if sentiment == 1:
+                count = count + 1
+            total = total + 1
+            # Should grab some data for the reddit comment. Username and date????? ------------
+            queryList.append(comment)
+            currentComment = comment.encode('ascii', errors='ignore').decode()
+            output.append(currentComment + '\n')
+        with open("RedditOutput.txt", "w", encoding='utf8') as text_file:
+            text_file.write(str(output) + '\n')
+        positiveSentiment = count / total * 100
+    except BaseException as e:
+        print('Status Failed On,', str(e))
+
+    words = re.findall(r'\w+', open('Output.txt').read().lower())
+
+    with open('redditSentiment.json', 'w', encoding='utf8') as outfile:
+        json.dump(
+            {'sentimentStat': positiveSentiment,
+             'comments': queryList,
+             'word_cloud': Counter(words).most_common(50),
+             }, outfile, indent=4)
+    
+    return {'sentimentStat': positiveSentiment,
+            'comments': queryList,
+            'word_cloud': Counter(words).most_common(50),
             }
 
 
