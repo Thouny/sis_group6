@@ -4,7 +4,9 @@
 *.pt
 keys.py
 query.json
+query_at_date.json
 sentiment.json
+sentiment_at_date.json
 Output.txt
 
 # Miscellaneous

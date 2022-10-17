@@ -7,6 +7,10 @@ class InitialPageRoutes {
   static const loading = '/loading';
   // logged-in routes
   static const home = '/home';
+  static const aboutUs = '/aboutUs';
+  static const notification = '/notification';
+  static const profile = '/profile';
+  static const settings = '/settings';
   // account
   static const account = '/account';
 }

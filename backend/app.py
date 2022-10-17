@@ -32,12 +32,39 @@ class Sentiment(Resource):
         return main.sentimentAnalysis(query), 200
 
 
+class SentimentAtDate(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('query', required=True,
+                            type=str, location='values')
+        parser.add_argument('days_to_substract', required=True,
+                            type=str, location='values')
+        args = parser.parse_args()
+        with open('query_at_date.json', 'w', encoding='utf8') as outfile:
+            json.dump({'query': args['query'],
+                       'days_to_substract': args['days_to_substract']
+                       }, outfile, indent=4)
+
+        return {
+            'query': args['query'],
+            'days_to_substract': args['days_to_substract']
+        }, 200
+
+    def get(self):
+        with open('query_at_date.json', 'r', encoding='utf8') as outfile:
+            dict = json.load(outfile)
+            query = dict['query']
+            daysToSubstract = dict['days_to_substract']
+        return main.sentimentAnalysisAtDate(query, daysToSubstract), 200
+
+
 class testMode(Resource):
     pass
 
 
 api.add_resource(testMode, '/testmode')
 api.add_resource(Sentiment, '/sentiment')
+api.add_resource(SentimentAtDate, '/sentimentAtDate')
 
 if __name__ == "__main__":
     app.run(debug=True)
