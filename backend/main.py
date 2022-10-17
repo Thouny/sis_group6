@@ -227,6 +227,9 @@ def sentimentAnalysisReddit(query):
         output = []
         #json format of all comments
         redditComments = requests.get(query, headers=headers).json()
+        #if reddit subredit search returns null return null to front end
+        if redditComments['data']['after'] is None:
+            return None
         i = 0
         #count loop to go through all 100 comments and pull data and get sentiment
         while i < 100:
