@@ -55,9 +55,6 @@ class SentimentAtDate(Resource):
 class testMode(Resource):
     pass
 
-
-#Get should return the function reddit analysis which in turn
-
 class SentimentReddit(Resource):        
     def get(self):
         with open('query.json', 'r', encoding='utf8') as outfile:

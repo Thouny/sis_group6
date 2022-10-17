@@ -220,34 +220,45 @@ def sentimentAnalysisReddit(query):
         headers = {
             'user-agent': 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_8_7 rv:5.0; en-US) AppleWebKit/533.31.5 (KHTML, like Gecko) Version/4.0 Safari/533.31.5',
         }
-        query = 'https://www.reddit.com/r/' + query + '/comments.json'
+        query = 'https://www.reddit.com/r/' + query + '/comments.json?limit=100'
         queryList = []
         output = []
-        #this should be a dict 
-        redditComments = ['I love product', 'I hate product']
-        #------------------Create extracted dictonary from json ------------------------
+        #json format of all comments
         redditComments = requests.get(query, headers=headers)
-        #------------------Create extracted dictonary from json ------------------------
-        for comment in redditComments:
+        i = 0
+        #count loop to go through all 100 comments and pull data and get sentiment
+        while i < 100:
             class_names = ['negative', "positive"]
-            sentiment = model(comment)
+            currentComment = redditComments['data']['children'][i]['data']['body']
+            sentiment = model(currentComment)
             _, sentiment = torch.max(sentiment, dim=1)
+            currentComment = currentComment.encode('ascii', errors='ignore').decode()
             #append sentiment to dictonary
-            #redditComments['sentiment'] = class_names[sentiment]
+            redditCommentInfo = {
+                "comment": currentComment,
+                "author": "TEST FOR NOW",
+                "sentiment": class_names[sentiment]
+            }
+            queryList.append(redditCommentInfo)
+
+            output.append(currentComment + '\n')
+
             if sentiment == 1:
                 count = count + 1
             total = total + 1
-            # Should grab some data for the reddit comment. Username and date????? ------------
-            queryList.append(comment)
-            currentComment = comment.encode('ascii', errors='ignore').decode()
-            output.append(currentComment + '\n')
+
         with open("RedditOutput.txt", "w", encoding='utf8') as text_file:
             text_file.write(str(output) + '\n')
         positiveSentiment = count / total * 100
+        i += 1
     except BaseException as e:
         print('Status Failed On,', str(e))
-
-    words = re.findall(r'\w+', open('Output.txt').read().lower())
+    
+    stopWords = stopwords.words('english')
+    words = re.findall(r'\w+', open('RedditOutput.txt').read().lower())
+    for word in list(words):
+        if word in stopWords:
+            words.remove(word)
 
     with open('redditSentiment.json', 'w', encoding='utf8') as outfile:
         json.dump(
