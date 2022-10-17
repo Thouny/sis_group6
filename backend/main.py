@@ -215,6 +215,8 @@ def sentimentAnalysisAtDate(query, daysToSubstract):
 def sentimentAnalysisReddit(query):
     count = 0
     total = 0
+    customStopWords = [query.lower(), 'https', 'n',
+        'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
     try:
         #set the link we are requesting from
         headers = {
@@ -224,37 +226,42 @@ def sentimentAnalysisReddit(query):
         queryList = []
         output = []
         #json format of all comments
-        redditComments = requests.get(query, headers=headers)
+        redditComments = requests.get(query, headers=headers).json()
         i = 0
         #count loop to go through all 100 comments and pull data and get sentiment
         while i < 100:
             class_names = ['negative', "positive"]
-            currentComment = redditComments['data']['children'][i]['data']['body']
+            currentComment = json.dumps(redditComments['data']['children'][i]['data']['body'])
+            currentAuthor = json.dumps(redditComments['data']['children'][i]['data']['author'])
             sentiment = model(currentComment)
             _, sentiment = torch.max(sentiment, dim=1)
-            currentComment = currentComment.encode('ascii', errors='ignore').decode()
             #append sentiment to dictonary
             redditCommentInfo = {
                 "comment": currentComment,
-                "author": "TEST FOR NOW",
+                "author": currentAuthor,
                 "sentiment": class_names[sentiment]
             }
             queryList.append(redditCommentInfo)
 
+            currentComment = currentComment.encode('ascii', errors='ignore').decode()
             output.append(currentComment + '\n')
 
             if sentiment == 1:
                 count = count + 1
             total = total + 1
+            i += 1
 
         with open("RedditOutput.txt", "w", encoding='utf8') as text_file:
             text_file.write(str(output) + '\n')
         positiveSentiment = count / total * 100
-        i += 1
+
     except BaseException as e:
         print('Status Failed On,', str(e))
     
     stopWords = stopwords.words('english')
+    for stop in customStopWords:
+        stopWords.append(stop)
+
     words = re.findall(r'\w+', open('RedditOutput.txt').read().lower())
     for word in list(words):
         if word in stopWords:

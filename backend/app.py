@@ -59,7 +59,7 @@ class SentimentReddit(Resource):
     def get(self):
         with open('query.json', 'r', encoding='utf8') as outfile:
             query = json.load(outfile)
-        return main.sentimentAnalysis(query), 200
+        return main.sentimentAnalysisReddit(query), 200
 
 
 
