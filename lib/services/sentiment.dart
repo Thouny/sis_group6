@@ -6,9 +6,13 @@ import 'package:sis_group6/infrastructure/network/endpoint/sentiment/get_sentime
 import 'package:sis_group6/infrastructure/network/endpoint/sentiment/post_sentiment.dart';
 import 'package:sis_group6/infrastructure/network/endpoint/sentiment_at_date/get_sentiment_at_date.dart';
 import 'package:sis_group6/infrastructure/network/endpoint/sentiment_at_date/post_sentiment_at_date.dart';
+import 'package:sis_group6/infrastructure/network/endpoint/sentiment_reddit/get_sentiment_reddit.dart';
+import 'package:sis_group6/infrastructure/network/endpoint/sentiment_reddit/post_sentiment_reddit.dart';
 import 'package:sis_group6/infrastructure/network/models/get_sentiment_at_date_response.dart';
+import 'package:sis_group6/infrastructure/network/models/get_sentiment_reddit_response.dart';
 import 'package:sis_group6/infrastructure/network/models/get_sentiment_response.dart';
 import 'package:sis_group6/infrastructure/network/models/post_sentiment_at_date_response.dart';
+import 'package:sis_group6/infrastructure/network/models/post_sentiment_reddit_response.dart';
 import 'package:sis_group6/infrastructure/network/models/post_sentiment_response.dart';
 
 class SentimentService {
@@ -23,6 +27,24 @@ class SentimentService {
           .send<PostSentimentResponse, PostSentiment>(postEndpoint);
       final response = await _networkClient
           .send<GetSentimentResponse, GetSentiment>(getEndpoint);
+
+      return response;
+    } catch (err) {
+      // ignore: avoid_print
+      print(err);
+      return null;
+    }
+  }
+
+  Future<GetSentimentRedditResponse?> getRedditSentiment(String query) async {
+    try {
+      final postEndpoint = PostSentimentReddit(query: query);
+      const getEndpoint = GetSentimentReddit();
+
+      await _networkClient
+          .send<PostSentimentRedditResponse, PostSentimentReddit>(postEndpoint);
+      final response = await _networkClient
+          .send<GetSentimentRedditResponse, GetSentimentReddit>(getEndpoint);
 
       return response;
     } catch (err) {
