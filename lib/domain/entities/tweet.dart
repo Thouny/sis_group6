@@ -1,12 +1,14 @@
-import 'package:equatable/equatable.dart';
 import 'package:sis_group6/core/enums/sentiment.dart';
+import 'package:sis_group6/core/enums/source.dart';
+import 'package:sis_group6/domain/entities/mention.dart';
 
-class TweetEntity extends Equatable {
+class TweetEntity extends MentionEntity {
   const TweetEntity({
+    required super.text,
+    required super.source,
+    required super.sentiment,
     required this.id,
-    required this.text,
     this.createdAt,
-    this.sentiment,
   });
 
   factory TweetEntity.fromMap(Map<String, dynamic> data) {
@@ -14,22 +16,14 @@ class TweetEntity extends Equatable {
       id: data['id'],
       text: data['text'],
       sentiment: SentimentConverter.convertFrom(data['sentiment']),
+      source: Source.twitter,
     );
   }
 
   final String id;
 
-  final String text;
-
   final DateTime? createdAt;
 
-  final Sentiment? sentiment;
-
   @override
-  List<Object?> get props => [
-        id,
-        text,
-        createdAt,
-        sentiment,
-      ];
+  List<Object?> get props => [id, text, createdAt, sentiment, source];
 }
