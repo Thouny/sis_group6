@@ -19,7 +19,7 @@ class Sentiment(Resource):
         return {
             'query': args['query']
         }, 200
-        
+
     def get(self):
         with open('query.json', 'r', encoding='utf8') as outfile:
             query = json.load(outfile)
@@ -55,12 +55,24 @@ class SentimentAtDate(Resource):
 class testMode(Resource):
     pass
 
-class SentimentReddit(Resource):        
+
+class SentimentReddit(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('query', required=True,
+                            type=str, location='values')
+        args = parser.parse_args()
+        with open('queryReddit.json', 'w', encoding='utf8') as outfile:
+            json.dump(args['query'], outfile)
+
+        return {
+            'query': args['query']
+        }, 200
+
     def get(self):
-        with open('query.json', 'r', encoding='utf8') as outfile:
+        with open('queryReddit.json', 'r', encoding='utf8') as outfile:
             query = json.load(outfile)
         return main.sentimentAnalysisReddit(query), 200
-
 
 
 api.add_resource(testMode, '/testmode')

@@ -211,34 +211,36 @@ def sentimentAnalysisAtDate(query, daysToSubstract):
             'date': start_day.strftime('%Y-%m-%dT%H:%M:%S.%f')
             }
 
-#will take in the query as well json should already be created
+# will take in the query as well json should already be created
+
+
 def sentimentAnalysisReddit(query):
     count = 0
     total = 0
     customStopWords = [query.lower(), 'https', 'n',
-        'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
     try:
-        #set the link we are requesting from
+        # set the link we are requesting from
         headers = {
             'user-agent': 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_8_7 rv:5.0; en-US) AppleWebKit/533.31.5 (KHTML, like Gecko) Version/4.0 Safari/533.31.5',
         }
         query = 'https://www.reddit.com/r/' + query + '/comments.json?limit=100'
         queryList = []
         output = []
-        #json format of all comments
+        # json format of all comments
         redditComments = requests.get(query, headers=headers).json()
-        #if reddit subredit search returns null return null to front end
+        # if reddit subredit search returns null return null to front end
         if redditComments['data']['after'] is None:
             return None
         i = 0
-        #count loop to go through all 100 comments and pull data and get sentiment
+        # count loop to go through all 100 comments and pull data and get sentiment
         while i < 100:
             class_names = ['negative', "positive"]
             currentComment = redditComments['data']['children'][i]['data']['body']
             currentAuthor = redditComments['data']['children'][i]['data']['author']
             sentiment = model(currentComment)
             _, sentiment = torch.max(sentiment, dim=1)
-            #append sentiment to dictonary
+            # append sentiment to dictonary
             redditCommentInfo = {
                 "comment": currentComment,
                 "author": currentAuthor,
@@ -246,7 +248,8 @@ def sentimentAnalysisReddit(query):
             }
             queryList.append(redditCommentInfo)
 
-            currentComment = currentComment.encode('ascii', errors='ignore').decode()
+            currentComment = currentComment.encode(
+                'ascii', errors='ignore').decode()
             output.append(currentComment + '\n')
 
             if sentiment == 1:
@@ -260,7 +263,7 @@ def sentimentAnalysisReddit(query):
 
     except BaseException as e:
         print('Status Failed On,', str(e))
-    
+
     stopWords = stopwords.words('english')
     for stop in customStopWords:
         stopWords.append(stop)
@@ -276,7 +279,7 @@ def sentimentAnalysisReddit(query):
              'comments': queryList,
              'word_cloud': Counter(words).most_common(50),
              }, outfile, indent=4)
-    
+
     return {'sentimentStat': positiveSentiment,
             'comments': queryList,
             'word_cloud': Counter(words).most_common(50),
