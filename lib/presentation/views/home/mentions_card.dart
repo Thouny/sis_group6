@@ -4,10 +4,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
-import 'package:sis_group6/presentation/widgets/tweet_list_card.dart';
+import 'package:sis_group6/presentation/widgets/mention_list_card.dart';
 
-class TweetsCard extends StatelessWidget {
-  const TweetsCard({Key? key}) : super(key: key);
+class MentionsCard extends StatelessWidget {
+  const MentionsCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +21,12 @@ class TweetsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            DashboardConsts.tweetsCardTitle,
+            DashboardConsts.mentionsCardTitle,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           const SizedBox(
             width: double.infinity,
-            child: _TweetContent(),
+            child: _MentionsContent(),
           ),
         ],
       ),
@@ -34,8 +34,8 @@ class TweetsCard extends StatelessWidget {
   }
 }
 
-class _TweetContent extends StatelessWidget {
-  const _TweetContent();
+class _MentionsContent extends StatelessWidget {
+  const _MentionsContent();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _TweetContent extends StatelessWidget {
       child: BlocBuilder<SentimentDetailsBloc, SentimentDetailsState>(
         builder: (context, state) {
           if (state is LoadedSentimentDetailsState) {
-            return TweetListCard(tweets: state.tweets);
+            return MentionsListCard(mentions: state.mentions);
           } else if (state is LoadingSentimentDetailsState) {
             return const Expanded(
               child: Center(

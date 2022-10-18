@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sis_group6/core/enums/sentiment.dart';
+import 'package:sis_group6/core/enums/source.dart';
 import 'package:sis_group6/core/theme/app.dart';
-import 'package:sis_group6/domain/entities/tweet.dart';
+import 'package:sis_group6/domain/entities/mention.dart';
 
-class TweetListCard extends StatelessWidget {
-  const TweetListCard({super.key, required this.tweets});
+class MentionsListCard extends StatelessWidget {
+  const MentionsListCard({super.key, required this.mentions});
 
-  final List<TweetEntity> tweets;
+  final List<MentionEntity> mentions;
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +16,18 @@ class TweetListCard extends StatelessWidget {
       height: AppHeightValues.tweetsCardHeight,
       child: ListView.separated(
         shrinkWrap: true,
-        itemCount: tweets.length,
+        itemCount: mentions.length,
         itemBuilder: (context, index) {
-          final currentTweet = tweets[index];
+          final currentMention = mentions[index];
           return ListTile(
-            title: Text(currentTweet.text),
-            subtitle: Text(
-              currentTweet.sentiment?.label ?? '',
+            leading: currentMention.source.icon,
+            title: SelectableText(currentMention.text),
+            subtitle: SelectableText(
+              currentMention.sentiment.label,
               style: Theme.of(context)
                   .textTheme
                   .caption
-                  ?.copyWith(color: currentTweet.sentiment?.color),
+                  ?.copyWith(color: currentMention.sentiment.color),
             ),
           );
         },

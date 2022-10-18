@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/core/utils/responsive.dart';
-import 'package:sis_group6/presentation/views/home/tweets_card.dart';
+import 'package:sis_group6/presentation/views/home/mentions_card.dart';
 import 'package:sis_group6/presentation/widgets/header.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_details.dart';
 import 'package:sis_group6/presentation/widgets/sentiment_overview.dart';
@@ -44,7 +44,7 @@ class DashboardView extends StatelessWidget {
                       const SizedBox(height: AppPaddingValues.smallPadding),
                     if (Responsive.isMobile(context)) const SentimentOverview(),
                     const SizedBox(height: AppPaddingValues.smallPadding),
-                    const TweetsCard(),
+                    const MentionsCard(),
                   ],
                 ),
               ),
