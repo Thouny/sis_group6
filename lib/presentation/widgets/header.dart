@@ -17,6 +17,18 @@ class Header extends StatelessWidget {
   final String headerTitle;
   final bool isDashboard;
 
+  static const _dropdownvalue = 'Last 7 days';
+
+// List of items in our dropdown menu
+  static const _dropDownItems = [
+    'Last 7 days',
+    'Last 2 weeks',
+    'Last month',
+    'Last 3 months',
+    'Last 6 months',
+    'Last year'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -34,6 +46,25 @@ class Header extends StatelessWidget {
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
         if (isDashboard)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton(
+              value: _dropdownvalue,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              items: _dropDownItems.map((String item) {
+                return DropdownMenuItem(
+                  value: item,
+                  child: Text(item),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                // setState(() {
+                //   dropdownvalue = newValue!;
+                // });
+              },
+            ),
+          ),
+        if (isDashboard)
           Expanded(
             child: SearchBar(
               onSubmitted: (value) {
@@ -50,7 +81,7 @@ class Header extends StatelessWidget {
                 }
               },
             ),
-          )
+          ),
       ],
     );
   }
