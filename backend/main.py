@@ -7,6 +7,7 @@
 # pip install nltk
 # python -m nltk.downloader stopwords
 # pip install collection
+# pip install requests
 
 # import libaries for use
 import torch
@@ -16,13 +17,11 @@ from http import client
 import tweepy
 import keys
 import json
-from flask import Flask
-from flask_restful import Resource, Api, reqparse
 from collections import Counter
 from nltk.corpus import stopwords
-import pandas as pd
 import re
 import datetime
+import requests
 
 # constants for defining the model
 MAX_LENGTH = 64
@@ -44,9 +43,6 @@ class SentimentClassifier(nn.Module):
         self.drop = nn.Dropout(p=0.3).to(self.device)
         self.out = nn.Linear(self.bert.config.hidden_size,
                              n_classes).to(self.device)
-        # Optional: Freeze the BERT model
-        # for param in self.bert.parameters():
-        #   param.requires_grad = False
         self.max_length = max_length
 
     def pre_process_data(self, text):
@@ -79,7 +75,7 @@ class SentimentClassifier(nn.Module):
 model = SentimentClassifier(2, max_length=MAX_LENGTH, device=device)
 model.load_state_dict(torch.load('testmodel.pt'))
 
-# Passing auth key that has from key.py that has been exculuded from github
+# Passing auth key from key.py that has been exculuded from github
 client = tweepy.Client(bearer_token=keys.BEARER,
                        consumer_key=keys.CONSUMER_KEY,
                        consumer_secret=keys.CONSUMER_SECRET,
@@ -97,8 +93,6 @@ def sentimentAnalysis(query):
     try:
         # get query
         #query = input('Enter your keyword:\n')
-
-        queryjson = query + '.json'
         query = '#' + query + ' lang:en'
         queryList = []
         # max_results = input('Enter how many tweets:\n')
@@ -215,6 +209,77 @@ def sentimentAnalysisAtDate(query, daysToSubstract):
             'tweets': queryList,
             'word_cloud': Counter(words).most_common(50),
             'date': start_day.strftime('%Y-%m-%dT%H:%M:%S.%f')
+            }
+
+#will take in the query as well json should already be created
+def sentimentAnalysisReddit(query):
+    count = 0
+    total = 0
+    customStopWords = [query.lower(), 'https', 'n',
+        'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
+    try:
+        #set the link we are requesting from
+        headers = {
+            'user-agent': 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_8_7 rv:5.0; en-US) AppleWebKit/533.31.5 (KHTML, like Gecko) Version/4.0 Safari/533.31.5',
+        }
+        query = 'https://www.reddit.com/r/' + query + '/comments.json?limit=100'
+        queryList = []
+        output = []
+        #json format of all comments
+        redditComments = requests.get(query, headers=headers).json()
+        #if reddit subredit search returns null return null to front end
+        if redditComments['data']['after'] is None:
+            return None
+        i = 0
+        #count loop to go through all 100 comments and pull data and get sentiment
+        while i < 100:
+            class_names = ['negative', "positive"]
+            currentComment = redditComments['data']['children'][i]['data']['body']
+            currentAuthor = redditComments['data']['children'][i]['data']['author']
+            sentiment = model(currentComment)
+            _, sentiment = torch.max(sentiment, dim=1)
+            #append sentiment to dictonary
+            redditCommentInfo = {
+                "comment": currentComment,
+                "author": currentAuthor,
+                "sentiment": class_names[sentiment]
+            }
+            queryList.append(redditCommentInfo)
+
+            currentComment = currentComment.encode('ascii', errors='ignore').decode()
+            output.append(currentComment + '\n')
+
+            if sentiment == 1:
+                count = count + 1
+            total = total + 1
+            i += 1
+
+        with open("RedditOutput.txt", "w", encoding='utf8') as text_file:
+            text_file.write(str(output) + '\n')
+        positiveSentiment = count / total * 100
+
+    except BaseException as e:
+        print('Status Failed On,', str(e))
+    
+    stopWords = stopwords.words('english')
+    for stop in customStopWords:
+        stopWords.append(stop)
+
+    words = re.findall(r'\w+', open('RedditOutput.txt').read().lower())
+    for word in list(words):
+        if word in stopWords:
+            words.remove(word)
+
+    with open('redditSentiment.json', 'w', encoding='utf8') as outfile:
+        json.dump(
+            {'sentimentStat': positiveSentiment,
+             'comments': queryList,
+             'word_cloud': Counter(words).most_common(50),
+             }, outfile, indent=4)
+    
+    return {'sentimentStat': positiveSentiment,
+            'comments': queryList,
+            'word_cloud': Counter(words).most_common(50),
             }
 
 

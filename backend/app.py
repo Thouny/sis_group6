@@ -19,13 +19,7 @@ class Sentiment(Resource):
         return {
             'query': args['query']
         }, 200
-
-    # dont need to get data for now as local json file is already created
-    # def get(self):
-        # for tweet in main.tweets.data:
-        #data = tweet.data
-        # return {'data': data}, 200
-
+        
     def get(self):
         with open('query.json', 'r', encoding='utf8') as outfile:
             query = json.load(outfile)
@@ -61,10 +55,19 @@ class SentimentAtDate(Resource):
 class testMode(Resource):
     pass
 
+class SentimentReddit(Resource):        
+    def get(self):
+        with open('query.json', 'r', encoding='utf8') as outfile:
+            query = json.load(outfile)
+        return main.sentimentAnalysisReddit(query), 200
+
+
 
 api.add_resource(testMode, '/testmode')
 api.add_resource(Sentiment, '/sentiment')
 api.add_resource(SentimentAtDate, '/sentimentAtDate')
+api.add_resource(SentimentReddit, '/sentimentReddit')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
