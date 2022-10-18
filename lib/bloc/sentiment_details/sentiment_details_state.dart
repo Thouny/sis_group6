@@ -15,7 +15,7 @@ class LoadedSentimentDetailsState extends SentimentDetailsState {
     required this.negativeSentiment,
     required this.positiveCount,
     required this.negativeCount,
-    required this.tweets,
+    required this.mentions,
     required this.keywords,
   });
 
@@ -23,7 +23,7 @@ class LoadedSentimentDetailsState extends SentimentDetailsState {
   final int negativeSentiment;
   final int positiveCount;
   final int negativeCount;
-  final List<TweetEntity> tweets;
+  final List<MentionEntity> mentions;
   final List<KeywordModel> keywords;
 
   @override
@@ -32,7 +32,7 @@ class LoadedSentimentDetailsState extends SentimentDetailsState {
         negativeSentiment,
         positiveCount,
         negativeCount,
-        tweets,
+        mentions,
         keywords,
       ];
 }
