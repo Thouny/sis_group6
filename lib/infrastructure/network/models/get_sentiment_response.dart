@@ -1,21 +1,18 @@
 import 'package:sis_group6/domain/entities/tweet.dart';
 import 'package:sis_group6/domain/entities/keyword.dart';
+import 'package:sis_group6/infrastructure/network/models/base_sentiment_response.dart';
 
-class GetSentimentResponse {
+class GetSentimentResponse extends BaseSentimentResponse {
   const GetSentimentResponse({
-    required this.sentimentStat,
-    required this.tweets,
-    required this.wordClouds,
+    required super.sentimentStat,
+    required super.mentions,
+    required super.wordClouds,
   });
-
-  final double sentimentStat;
-  final List<TweetEntity> tweets;
-  final List<KeywordEntity> wordClouds;
 
   factory GetSentimentResponse.fromJson(Map<String, dynamic> data) {
     return GetSentimentResponse(
       sentimentStat: data['sentimentStat'],
-      tweets: _mapToTweets(List<Map<String, dynamic>>.from(data['tweets'])),
+      mentions: _mapToTweets(List<Map<String, dynamic>>.from(data['tweets'])),
       wordClouds: _mapToKeywords(List<List<dynamic>>.from(data['word_cloud'])),
     );
   }
