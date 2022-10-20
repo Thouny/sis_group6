@@ -5,11 +5,15 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sis_group6/core/enums/sentiment.dart';
+import 'package:sis_group6/core/enums/source.dart';
 import 'package:sis_group6/core/theme/keyword.dart';
 import 'package:sis_group6/domain/entities/mention.dart';
 import 'package:sis_group6/domain/repositories/sentiment.dart';
 import 'package:sis_group6/infrastructure/network/models/base_sentiment_response.dart';
+import 'package:sis_group6/infrastructure/network/models/get_sentiment_reddit_response.dart';
+import 'package:sis_group6/infrastructure/network/models/get_sentiment_response.dart';
 import 'package:sis_group6/presentation/models/keyword.dart';
+import 'package:sis_group6/presentation/models/social_media.dart';
 
 part 'sentiment_details_event.dart';
 part 'sentiment_details_state.dart';
@@ -29,10 +33,19 @@ class SentimentDetailsBloc
     try {
       emit(LoadingSentimentDetailsState());
       List<BaseSentimentResponse> results = [];
-      final twitterResults = await _sentimentRepo.getSentiment(event.query);
-      final redditResults = await _sentimentRepo.getRedditSentiment(
-        event.query,
-      );
+      GetSentimentResponse? twitterResults;
+      GetSentimentRedditResponse? redditResults;
+
+      for (final socialMedia in event.selectedSocialMedia) {
+        if (socialMedia.source == Source.twitter) {
+          twitterResults = await _sentimentRepo.getSentiment(event.query);
+        } else if (socialMedia.source == Source.reddit) {
+          redditResults = await _sentimentRepo.getRedditSentiment(
+            event.query,
+          );
+        }
+      }
+
       if (twitterResults != null) {
         results.add(twitterResults);
       }
