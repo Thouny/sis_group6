@@ -132,7 +132,6 @@ extension _Helpers on SentimentDetailsBloc {
         }
       }
     }
-
-    return filteredMentions;
+    return filteredMentions..shuffle();
   }
 }
