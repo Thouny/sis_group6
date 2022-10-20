@@ -29,6 +29,20 @@ class KeywordModel extends Equatable {
   final int size;
   final bool isRotated;
 
+  KeywordModel copyWith({
+    String? text,
+    Color? color,
+    int? size,
+    bool? isRotated,
+  }) {
+    return KeywordModel(
+      text: text ?? this.text,
+      color: color ?? this.color,
+      size: size ?? this.size,
+      isRotated: isRotated ?? this.isRotated,
+    );
+  }
+
   @override
-  List<Object?> get props => [text, color, size, isRotated];
+  List<Object?> get props => [text];
 }

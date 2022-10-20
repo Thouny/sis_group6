@@ -92,11 +92,19 @@ extension _Helpers on SentimentDetailsBloc {
     final keywords = <KeywordModel>[];
     for (final result in results) {
       for (var entity in result.wordClouds) {
-        keywords.add(KeywordModel.fromEntity(
+        var newModel = KeywordModel.fromEntity(
           entity,
           KeywordColors.random,
           Random().nextBool(),
-        ));
+        );
+        if (!keywords.contains(newModel)) {
+          keywords.add(newModel);
+        } else {
+          final index = keywords.indexOf(newModel);
+          final oldModel = keywords[index];
+          newModel = oldModel.copyWith(size: oldModel.size + newModel.size);
+          keywords[index] = newModel;
+        }
       }
     }
     return keywords;
