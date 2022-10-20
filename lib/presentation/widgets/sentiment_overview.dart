@@ -19,7 +19,7 @@ class SentimentOverview extends StatelessWidget {
             children: [
               Flexible(
                 child: SingleChildScrollView(
-                  child: Text(
+                  child: SelectableText(
                     state.sentimentOverview,
                     style: const TextStyle(
                       color: Colors.white70,

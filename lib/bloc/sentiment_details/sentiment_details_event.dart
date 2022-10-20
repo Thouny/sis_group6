@@ -6,10 +6,14 @@ abstract class SentimentDetailsEvent extends Equatable {
 }
 
 class GetSentimentDetailsEvent extends SentimentDetailsEvent {
-  GetSentimentDetailsEvent({required this.query});
+  GetSentimentDetailsEvent({
+    required this.query,
+    required this.selectedSocialMedia,
+  });
 
   final String query;
+  final List<SocialMediaModel> selectedSocialMedia;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [query, selectedSocialMedia];
 }

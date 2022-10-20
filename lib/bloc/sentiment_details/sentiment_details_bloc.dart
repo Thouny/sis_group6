@@ -5,11 +5,15 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sis_group6/core/enums/sentiment.dart';
+import 'package:sis_group6/core/enums/source.dart';
 import 'package:sis_group6/core/theme/keyword.dart';
-import 'package:sis_group6/domain/entities/keyword.dart';
-import 'package:sis_group6/domain/entities/tweet.dart';
+import 'package:sis_group6/domain/entities/mention.dart';
 import 'package:sis_group6/domain/repositories/sentiment.dart';
+import 'package:sis_group6/infrastructure/network/models/base_sentiment_response.dart';
+import 'package:sis_group6/infrastructure/network/models/get_sentiment_reddit_response.dart';
+import 'package:sis_group6/infrastructure/network/models/get_sentiment_response.dart';
 import 'package:sis_group6/presentation/models/keyword.dart';
+import 'package:sis_group6/presentation/models/social_media.dart';
 
 part 'sentiment_details_event.dart';
 part 'sentiment_details_state.dart';
@@ -28,23 +32,44 @@ class SentimentDetailsBloc
   ) async {
     try {
       emit(LoadingSentimentDetailsState());
-      final result = await _sentimentRepo.getSentiment(event.query);
-      if (result != null) {
-        final positiveSentiment = result.sentimentStat.ceil();
+      List<BaseSentimentResponse> results = [];
+      GetSentimentResponse? twitterResults;
+      GetSentimentRedditResponse? redditResults;
+
+      for (final socialMedia in event.selectedSocialMedia) {
+        if (socialMedia.source == Source.twitter) {
+          twitterResults = await _sentimentRepo.getSentiment(event.query);
+        } else if (socialMedia.source == Source.reddit) {
+          redditResults = await _sentimentRepo.getRedditSentiment(
+            event.query,
+          );
+        }
+      }
+
+      if (twitterResults != null) {
+        results.add(twitterResults);
+      }
+      if (redditResults != null) {
+        results.add(redditResults);
+      }
+
+      if (results.isNotEmpty) {
+        final positiveSentiment = _getPositiveSentiment(results);
+
         final negativeSentiment = 100 - positiveSentiment;
 
-        final tweets = _filterRetweets(result.tweets);
-        final keywords = _generateKeywordModels(result.wordClouds);
+        final mentions = _filterRetweets(results);
+        final keywords = _generateKeywordModels(results);
 
-        final positiveCount = _getCount(result.tweets, Sentiment.positive);
-        final negativeCount = _getCount(result.tweets, Sentiment.negative);
+        final positiveCount = _getCount(results, Sentiment.positive);
+        final negativeCount = _getCount(results, Sentiment.negative);
 
         emit(LoadedSentimentDetailsState(
           positiveSentiment: positiveSentiment,
           positiveCount: positiveCount,
           negativeSentiment: negativeSentiment,
           negativeCount: negativeCount,
-          tweets: tweets,
+          mentions: mentions,
           keywords: keywords,
         ));
       } else {
@@ -59,35 +84,67 @@ class SentimentDetailsBloc
 }
 
 extension _Helpers on SentimentDetailsBloc {
-  List<KeywordModel> _generateKeywordModels(List<KeywordEntity> entities) {
+  int _getPositiveSentiment(List<BaseSentimentResponse> results) {
+    var sum = 0;
+    var total = 0;
+    for (final result in results) {
+      total = total + result.mentions.length;
+      for (final mention in result.mentions) {
+        if (mention.sentiment == Sentiment.positive) {
+          sum = sum + 1;
+        }
+      }
+    }
+    final positiveSentiment = sum / total * 100;
+    return positiveSentiment.ceil();
+  }
+
+  List<KeywordModel> _generateKeywordModels(
+    List<BaseSentimentResponse> results,
+  ) {
     final keywords = <KeywordModel>[];
-    for (var entity in entities) {
-      keywords.add(KeywordModel.fromEntity(
-        entity,
-        KeywordColors.random,
-        Random().nextBool(),
-      ));
+    for (final result in results) {
+      for (var entity in result.wordClouds) {
+        var newModel = KeywordModel.fromEntity(
+          entity,
+          KeywordColors.random,
+          Random().nextBool(),
+        );
+        if (!keywords.contains(newModel)) {
+          keywords.add(newModel);
+        } else {
+          final index = keywords.indexOf(newModel);
+          final oldModel = keywords[index];
+          newModel = oldModel.copyWith(size: oldModel.size + newModel.size);
+          keywords[index] = newModel;
+        }
+      }
     }
     return keywords;
   }
 
-  int _getCount(List<TweetEntity> tweets, Sentiment sentiment) {
+  int _getCount(List<BaseSentimentResponse> results, Sentiment sentiment) {
     var count = 0;
-    for (final tweet in tweets) {
-      if (tweet.sentiment == sentiment) {
-        count++;
+    for (final result in results) {
+      for (final tweet in result.mentions) {
+        if (tweet.sentiment == sentiment) {
+          count++;
+        }
       }
     }
+
     return count;
   }
 
-  List<TweetEntity> _filterRetweets(List<TweetEntity> tweets) {
-    final filteredTweets = <TweetEntity>[];
-    for (final tweet in tweets) {
-      if (!tweet.text.contains('RT ')) {
-        filteredTweets.add(tweet);
+  List<MentionEntity> _filterRetweets(List<BaseSentimentResponse> results) {
+    final filteredMentions = <MentionEntity>[];
+    for (final result in results) {
+      for (final mention in result.mentions) {
+        if (!mention.text.contains('RT ')) {
+          filteredMentions.add(mention);
+        }
       }
     }
-    return filteredTweets;
+    return filteredMentions..shuffle();
   }
 }

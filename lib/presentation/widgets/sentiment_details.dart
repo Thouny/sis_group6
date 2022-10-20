@@ -39,7 +39,7 @@ class SentimentDetails extends StatelessWidget {
               SentimentInfoCard(
                 title: Sentiment.positive.label,
                 percentage: "${state.positiveSentiment}%",
-                tweetCounts: state.positiveCount,
+                mentionsCount: state.positiveCount,
                 icon: Icon(
                   Icons.thumb_up,
                   color: Sentiment.positive.color,
@@ -48,7 +48,7 @@ class SentimentDetails extends StatelessWidget {
               SentimentInfoCard(
                 title: Sentiment.negative.label,
                 percentage: "${state.negativeSentiment}%",
-                tweetCounts: state.negativeCount,
+                mentionsCount: state.negativeCount,
                 icon: Icon(Icons.thumb_down, color: Sentiment.negative.color),
               ),
             ],

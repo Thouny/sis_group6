@@ -4,10 +4,13 @@
 *.pt
 keys.py
 query.json
+queryReddit.json
 query_at_date.json
 sentiment.json
+redditSentiment.json
 sentiment_at_date.json
 Output.txt
+RedditOutput.txt
 
 # Miscellaneous
 *.class

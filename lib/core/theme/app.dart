@@ -51,7 +51,7 @@ class AppHeightValues {
   static const double tweetsCardHeight = 400;
   static const double tileHeight = 83;
   static const double mindHackCardHeight = 137;
-  static const double lessonButtonHeight = 55.0;
+  static const double multiChipFieldHeight = 50.0;
   static const double divider = 1;
 }
 

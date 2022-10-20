@@ -7,13 +7,13 @@ class SentimentInfoCard extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.percentage,
-    required this.tweetCounts,
+    required this.mentionsCount,
   }) : super(key: key);
 
   final String title;
   final String percentage;
   final Icon icon;
-  final int tweetCounts;
+  final int mentionsCount;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class SentimentInfoCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "$tweetCounts tweets",
+                    "$mentionsCount mentions",
                     style: Theme.of(context)
                         .textTheme
                         .caption!
