@@ -15,58 +15,75 @@ class SentimentOverTimeGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<double?> sentimentYValues = [];
+    String sentimentChange;
     return BlocBuilder<SentimentOverTimeBloc, SentimentOverTimeState>(
       builder: (context, state) {
         if (state is LoadedSentimentOverTimeState) {
+          for (var i = 0; i < 7; i++) {
+            if (state.sentimentOverTime[i].yData != null) {
+              sentimentYValues.add(state.sentimentOverTime[i].yData);
+            }
+          }
+          sentimentChange = getSentimentChange(sentimentYValues);
           return _SentimentCard(
             children: [
               SizedBox(
                 height: 200,
-                child: Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      AppPaddingValues.smallPadding,
-                      AppPaddingValues.smallPadding,
-                      AppPaddingValues.smallPadding,
-                      0,
-                    ),
-                    child: SfCartesianChart(
-                      primaryXAxis: DateTimeAxis(
-                        isVisible: true,
-                        majorGridLines: const MajorGridLines(width: 0),
-                        majorTickLines: const MajorTickLines(width: 0),
-                        dateFormat: DateFormat.MMMd(),
-                        interval: 1,
-                        intervalType: DateTimeIntervalType.days,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          AppPaddingValues.smallPadding,
+                          AppPaddingValues.smallPadding,
+                          AppPaddingValues.smallPadding,
+                          0,
+                        ),
+                        child: SfCartesianChart(
+                          primaryXAxis: DateTimeAxis(
+                            isVisible: true,
+                            majorGridLines: const MajorGridLines(width: 0),
+                            majorTickLines: const MajorTickLines(width: 0),
+                            dateFormat: DateFormat.MMMd(),
+                            interval: 1,
+                            intervalType: DateTimeIntervalType.days,
+                          ),
+                          primaryYAxis: NumericAxis(
+                              isVisible: true,
+                              maximum: 110,
+                              minimum: 0,
+                              majorTickLines: const MajorTickLines(width: 0),
+                              labelFormat: '{value}%'),
+                          plotAreaBorderColor: Colors.white,
+                          series: <ChartSeries>[
+                            SplineSeries<SentimentAtDateGraphData, DateTime>(
+                                dataSource: state.sentimentOverTime,
+                                xValueMapper: (data, _) => data.xData,
+                                yValueMapper: (data, _) => data.yData,
+                                markerSettings: const MarkerSettings(
+                                  isVisible: true,
+                                  width: 4,
+                                  height: 4,
+                                  borderWidth: 4,
+                                ),
+                                emptyPointSettings: EmptyPointSettings(
+                                  // Mode of empty point
+                                  mode: EmptyPointMode.drop,
+                                ),
+                                dataLabelSettings: const DataLabelSettings(
+                                  isVisible: true,
+                                )),
+                          ],
+                        ),
                       ),
-                      primaryYAxis: NumericAxis(
-                          isVisible: true,
-                          maximum: 110,
-                          minimum: 0,
-                          majorTickLines: const MajorTickLines(width: 0),
-                          labelFormat: '{value}%'),
-                      plotAreaBorderColor: Colors.white,
-                      series: <ChartSeries>[
-                        SplineSeries<SentimentAtDateGraphData, DateTime>(
-                            dataSource: state.sentimentOverTime,
-                            xValueMapper: (data, _) => data.xData,
-                            yValueMapper: (data, _) => data.yData,
-                            markerSettings: const MarkerSettings(
-                              isVisible: true,
-                              width: 4,
-                              height: 4,
-                              borderWidth: 4,
-                            ),
-                            emptyPointSettings: EmptyPointSettings(
-                              // Mode of empty point
-                              mode: EmptyPointMode.drop,
-                            ),
-                            dataLabelSettings: const DataLabelSettings(
-                              isVisible: true,
-                            )),
-                      ],
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: AppPaddingValues.mediumVerticalPadding),
+                      child: Text('$sentimentChange% change over time'),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -139,4 +156,12 @@ class _CardTitle extends StatelessWidget {
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
     );
   }
+}
+
+String getSentimentChange(List sentimentYValues) {
+  String sentimentChangeString;
+  double sentimentChange =
+      sentimentYValues[0] - sentimentYValues[sentimentYValues.length - 1];
+  sentimentChangeString = sentimentChange.toStringAsFixed(0);
+  return sentimentChangeString;
 }
