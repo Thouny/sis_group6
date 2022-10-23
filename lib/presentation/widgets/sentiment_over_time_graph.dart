@@ -81,7 +81,7 @@ class SentimentOverTimeGraph extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(
                           top: AppPaddingValues.mediumVerticalPadding),
-                      child: Text('$sentimentChange% change over time'),
+                      child: Text(sentimentChange),
                     ),
                   ],
                 ),
@@ -159,9 +159,12 @@ class _CardTitle extends StatelessWidget {
 }
 
 String getSentimentChange(List sentimentYValues) {
+  if (sentimentYValues.length == 1) {
+    return 'No change';
+  }
   String sentimentChangeString;
   double sentimentChange =
       sentimentYValues[0] - sentimentYValues[sentimentYValues.length - 1];
   sentimentChangeString = sentimentChange.toStringAsFixed(0);
-  return sentimentChangeString;
+  return '$sentimentChangeString%  change over time';
 }
