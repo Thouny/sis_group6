@@ -10,7 +10,7 @@ class DashboardConsts {
   static const sentimentDetailsToolTip =
       'Shows the percentage of positive sentiment on the selected social media on your search';
   static const wordCloudToolTip =
-      'Shows the most common words appearing in social media posts mentioning your search';
+      'Shows the most common words appearing in the selected social media posts mentioning your search';
   static const sentimentOverTimeToolTip =
       'Shows the average of positive sentiment from your search over the last seven days';
   static const sentimentSummaryToolTip =

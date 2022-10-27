@@ -54,7 +54,7 @@ class SentimentOverTimeGraph extends StatelessWidget {
                           plotAreaBorderColor: Colors.white,
                           series: <ChartSeries>[
                             SplineSeries<SentimentAtDateGraphData, DateTime>(
-                                name: 'Postiive %',
+                                name: 'Positive %',
                                 dataSource: state.sentimentOverTime,
                                 xValueMapper: (data, _) => data.xData,
                                 yValueMapper: (data, _) => data.yData,
