@@ -142,9 +142,19 @@ class _CardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      DashboardConsts.sentimentOverviewTitle,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          DashboardConsts.sentimentOverviewTitle,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        IconButton(
+          tooltip: DashboardConsts.sentimentSummaryToolTip,
+          onPressed: () {},
+          icon: const Icon(Icons.info),
+        ),
+      ],
     );
   }
 }

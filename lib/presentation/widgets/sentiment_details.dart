@@ -115,7 +115,7 @@ class _SentimentCard extends StatelessWidget {
       builder: (context, state) {
         if (state is LoadedPreferencesState) {
           return Container(
-            height: 500,
+            height: 510,
             padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
             decoration: BoxDecoration(
               color:
@@ -140,9 +140,19 @@ class _CardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      DashboardConsts.sentimentChartTitle,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          DashboardConsts.sentimentChartTitle,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        IconButton(
+          tooltip: DashboardConsts.sentimentDetailsToolTip,
+          onPressed: () {},
+          icon: const Icon(Icons.info),
+        ),
+      ],
     );
   }
 }

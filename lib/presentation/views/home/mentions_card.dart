@@ -25,9 +25,20 @@ class MentionsCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  DashboardConsts.mentionsCardTitle,
-                  style: Theme.of(context).textTheme.subtitle1,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      DashboardConsts.mentionsCardTitle,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    IconButton(
+                      tooltip: DashboardConsts.mentionsTooTip,
+                      onPressed: () {},
+                      icon: const Icon(Icons.info),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   width: double.infinity,

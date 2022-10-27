@@ -60,7 +60,6 @@ class DashboardView extends StatelessWidget {
                       flex: 5,
                       child: Column(
                         children: [
-                          // TODO: Add more cards here
                           SelectSocialMediaWidget(
                             seletedSocialMedia: state.selectedSources,
                             socialMedia: state.socialMedia,

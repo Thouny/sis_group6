@@ -187,14 +187,24 @@ class _CardTitle extends StatelessWidget {
   Widget _buildEvolution(BuildContext context, double evolution) {
     final style = Theme.of(context).textTheme.headline6;
     if (evolution.isNegative) {
-      return Text(
-        '$evolution%',
-        style: style?.copyWith(color: Sentiment.negative.color),
+      return Row(
+        children: [
+          Icon(Icons.arrow_drop_down, color: Sentiment.negative.color),
+          Text(
+            '$evolution%',
+            style: style?.copyWith(color: Sentiment.negative.color),
+          ),
+        ],
       );
     } else {
-      return Text(
-        '+$evolution%',
-        style: style?.copyWith(color: Sentiment.positive.color),
+      return Row(
+        children: [
+          Icon(Icons.arrow_drop_up, color: Sentiment.positive.color),
+          Text(
+            '+$evolution%',
+            style: style?.copyWith(color: Sentiment.positive.color),
+          ),
+        ],
       );
     }
   }
@@ -209,6 +219,12 @@ class _CardTitle extends StatelessWidget {
         ),
         if (evolution != null) const SizedBox(width: 20),
         if (evolution != null) _buildEvolution(context, evolution!),
+        const Spacer(),
+        IconButton(
+          tooltip: DashboardConsts.sentimentOverTimeToolTip,
+          onPressed: () {},
+          icon: const Icon(Icons.info),
+        ),
       ],
     );
   }

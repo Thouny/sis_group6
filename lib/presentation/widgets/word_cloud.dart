@@ -29,56 +29,78 @@ class WordCloud extends StatelessWidget {
     return BlocBuilder<PreferencesBloc, PreferencesState>(
       builder: (context, prefState) {
         if (prefState is LoadedPreferencesState) {
-          return Container(
-            decoration: BoxDecoration(
-              color: prefState.isDarkMode
-                  ? AppColors.secondaryColor
-                  : Colors.grey[50],
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
-            height: AppHeightValues.tweetsCardHeight,
-            child: Padding(
-              padding: const EdgeInsets.all(
-                  AppPaddingValues.xSmallHorizontalPadding),
-              child: Center(
+          return Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: prefState.isDarkMode
+                      ? AppColors.secondaryColor
+                      : Colors.grey[50],
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                height: AppHeightValues.tweetsCardHeight,
                 child: Padding(
-                  padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-                  child: FittedBox(
-                    child: BlocBuilder<SentimentDetailsBloc,
-                        SentimentDetailsState>(
-                      builder: (context, state) {
-                        if (state is LoadingSentimentDetailsState) {
-                          return SpinKitThreeInOut(
-                            color: prefState.isDarkMode
-                                ? Colors.white
-                                : AppColors.secondaryColor,
-                            size: 35,
-                          );
-                        } else if (state is LoadedSentimentDetailsState) {
-                          return Scatter(
-                            key: const Key(keyPrefix),
-                            fillGaps: true,
-                            delegate:
-                                ArchimedeanSpiralScatterDelegate(ratio: ratio),
-                            children: _generateScatterItems(state.keywords),
-                          );
-                        } else {
-                          return Text(
-                            DashboardConsts.emptyCardText,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                ),
-                          );
-                        }
-                      },
+                  padding: const EdgeInsets.all(
+                      AppPaddingValues.xSmallHorizontalPadding),
+                  child: Center(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.all(AppPaddingValues.smallPadding),
+                      child: FittedBox(
+                        child: BlocBuilder<SentimentDetailsBloc,
+                            SentimentDetailsState>(
+                          builder: (context, state) {
+                            if (state is LoadingSentimentDetailsState) {
+                              return SpinKitThreeInOut(
+                                color: prefState.isDarkMode
+                                    ? Colors.white
+                                    : AppColors.secondaryColor,
+                                size: 35,
+                              );
+                            } else if (state is LoadedSentimentDetailsState) {
+                              return Scatter(
+                                key: const Key(keyPrefix),
+                                fillGaps: true,
+                                delegate: ArchimedeanSpiralScatterDelegate(
+                                    ratio: ratio),
+                                children: _generateScatterItems(state.keywords),
+                              );
+                            } else {
+                              return Text(
+                                DashboardConsts.emptyCardText,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
+              const Positioned(
+                left: 16,
+                top: 16,
+                child: Text(
+                  DashboardConsts.wordCloudTitle,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ),
+              Positioned(
+                right: 16,
+                top: 16,
+                child: IconButton(
+                  tooltip: DashboardConsts.wordCloudToolTip,
+                  onPressed: () {},
+                  icon: const Icon(Icons.info),
+                ),
+              ),
+            ],
           );
         } else {
           return const SizedBox.shrink();
