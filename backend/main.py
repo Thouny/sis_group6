@@ -91,7 +91,8 @@ def sentimentAnalysis(query):
 
     queryStopWords = query.lower().split()
     customStopWords = [query.lower(), query.replace(" ", ""), 'https', 'n',
-                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit', 'reddit', 'twitter', 'r', 'rt', 'comments', 'message']
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit',
+                       'reddit', 'twitter', 'r', 'rt', 'comments', 'message', 'com', 'www']
     customStopWords.extend(queryStopWords)
 
     try:
@@ -153,12 +154,13 @@ def sentimentAnalysisAtDate(query, daysToSubstract):
     total = 0
     queryStopWords = query.lower().split()
     customStopWords = [query.lower(), query.replace(" ", ""), 'https', 'n',
-                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit', 'reddit', 'twitter', 'r', 'rt', 'comments', 'message']
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit',
+                       'reddit', 'twitter', 'r', 'rt', 'comments', 'message', 'com', 'www']
     customStopWords.extend(queryStopWords)
     try:
         query = '#' + query + ' lang:en'
         queryList = []
-        max_results = 100
+        max_results = 30
         if (int(daysToSubstract) == 1):
             today = datetime.datetime.now(datetime.timezone.utc)
             daysToMinus = datetime.timedelta(days=int(daysToSubstract))
@@ -225,7 +227,8 @@ def sentimentAnalysisReddit(query):
     total = 0
     queryStopWords = query.lower().split()
     customStopWords = [query.lower(), query.replace(" ", ""), 'https', 'n',
-                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit', 'reddit', 'twitter', 'r', 'rt', 'comments', 'message']
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit',
+                       'reddit', 'twitter', 'r', 'rt', 'comments', 'message', 'com', 'www']
     customStopWords.extend(queryStopWords)
     try:
         # set the link we are requesting from
