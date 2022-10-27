@@ -13,7 +13,6 @@ class KeywordColors {
 
   static const Color gray100 = Color(0xFFD5D7DA);
   static const Color gray600 = Color(0xFF60646B);
-  static const Color gray = Color(0xFF202124);
 
   static const List<Color> colors = [
     yellow,
@@ -23,7 +22,6 @@ class KeywordColors {
     blue,
     gray100,
     gray600,
-    gray,
   ];
 
   static Color get random {

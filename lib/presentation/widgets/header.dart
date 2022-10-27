@@ -51,9 +51,19 @@ class Header extends StatelessWidget {
               value: _dropdownvalue,
               icon: const Icon(Icons.keyboard_arrow_down),
               items: _dropDownItems.map((String item) {
+                final style = Theme.of(context).textTheme.bodyMedium;
+                final isFirst = item.contains('Last 7 days');
                 return DropdownMenuItem(
                   value: item,
-                  child: Text(item),
+                  enabled: isFirst,
+                  child: Text(
+                    item,
+                    style: isFirst
+                        ? style
+                        : style?.copyWith(
+                            color: Colors.grey,
+                          ),
+                  ),
                 );
               }).toList(),
               onChanged: (String? newValue) {

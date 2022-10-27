@@ -19,7 +19,7 @@ class KeywordModel extends Equatable {
     return KeywordModel(
       text: entity.text,
       color: color,
-      size: entity.size + 77,
+      size: entity.size * 3,
       isRotated: isRotated,
     );
   }

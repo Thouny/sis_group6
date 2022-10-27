@@ -15,6 +15,7 @@ class MentionsListCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppPaddingValues.xSmallHorizontalPadding),
       height: AppHeightValues.tweetsCardHeight,
       child: ListView.separated(
+        primary: false,
         shrinkWrap: true,
         itemCount: mentions.length,
         itemBuilder: (context, index) {
