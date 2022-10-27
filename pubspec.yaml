@@ -54,11 +54,17 @@ dependencies:
 
   # Word cloud
   flutter_scatter: ^0.2.0
+
+  # Storage/ IO
+  shared_preferences: ^2.0.15
+
+  # Loading indicator
+  flutter_spinkit: ^5.1.0
   
   google_fonts: ^3.0.1
   font_awesome_flutter: ^10.2.1
   build_runner: ^2.2.1
-  flutter_spinkit: ^5.1.0
+  
   intl: ^0.17.0
   collection: ^1.16.0
 

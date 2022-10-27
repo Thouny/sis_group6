@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:sis_group6/bloc/app/app_bloc.dart';
+import 'package:sis_group6/bloc/preferences/preferences_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
 import 'package:sis_group6/core/consts/app.dart';
 import 'package:sis_group6/core/theme/app.dart';
@@ -27,8 +28,18 @@ class AppWrapper extends StatelessWidget {
           create: (context) => MenuController(),
         ),
       ],
-      child: BlocProvider(
-        create: (context) => AppBloc()..add(const CheckAppStateEvent()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AppBloc()..add(const CheckAppStateEvent()),
+          ),
+          BlocProvider(
+            create: (context) => PreferencesBloc()
+              ..add(
+                const LoadPreferencesEvent(),
+              ),
+          ),
+        ],
         child: const App(),
       ),
     );
