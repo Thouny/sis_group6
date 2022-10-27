@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:sis_group6/core/enums/sentiment.dart';
 import 'package:sis_group6/core/enums/source.dart';
 import 'package:sis_group6/core/theme/keyword.dart';
+import 'package:sis_group6/domain/entities/keyword.dart';
 import 'package:sis_group6/domain/entities/mention.dart';
 import 'package:sis_group6/domain/repositories/sentiment.dart';
 import 'package:sis_group6/infrastructure/network/models/base_sentiment_response.dart';
@@ -41,7 +42,7 @@ class SentimentDetailsBloc
           twitterResults = await _sentimentRepo.getSentiment(event.query);
         } else if (socialMedia.source == Source.reddit) {
           redditResults = await _sentimentRepo.getRedditSentiment(
-            event.query,
+            event.query.replaceAll(' ', ''),
           );
         }
       }
@@ -58,7 +59,7 @@ class SentimentDetailsBloc
 
         final negativeSentiment = 100 - positiveSentiment;
 
-        final mentions = _filterRetweets(results);
+        final mentions = _filterMentions(results);
         final keywords = _generateKeywordModels(results);
 
         final positiveCount = _getCount(results, Sentiment.positive);
@@ -103,6 +104,8 @@ extension _Helpers on SentimentDetailsBloc {
     List<BaseSentimentResponse> results,
   ) {
     final keywords = <KeywordModel>[];
+    var list = <KeywordEntity>[];
+
     for (final result in results) {
       for (var entity in result.wordClouds) {
         var newModel = KeywordModel.fromEntity(
@@ -136,11 +139,13 @@ extension _Helpers on SentimentDetailsBloc {
     return count;
   }
 
-  List<MentionEntity> _filterRetweets(List<BaseSentimentResponse> results) {
+  List<MentionEntity> _filterMentions(List<BaseSentimentResponse> results) {
     final filteredMentions = <MentionEntity>[];
     for (final result in results) {
       for (final mention in result.mentions) {
-        if (!mention.text.contains('RT ')) {
+        final isRetweet = mention.text.contains('RT ');
+        final isBot = mention.text.contains('I am a bot');
+        if (!isRetweet && !isBot) {
           filteredMentions.add(mention);
         }
       }
