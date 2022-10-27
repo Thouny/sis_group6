@@ -10,12 +10,16 @@ class InitialSentimentOverTimeState extends SentimentOverTimeState {}
 class LoadingSentimentOverTimeState extends SentimentOverTimeState {}
 
 class LoadedSentimentOverTimeState extends SentimentOverTimeState {
-  LoadedSentimentOverTimeState({required this.sentimentOverTime});
+  LoadedSentimentOverTimeState({
+    required this.sentimentOverTime,
+    required this.evolution,
+  });
 
   final List<SentimentAtDateGraphData> sentimentOverTime;
+  final double? evolution;
 
   @override
-  List<Object?> get props => [sentimentOverTime];
+  List<Object?> get props => [sentimentOverTime, evolution];
 }
 
 class FailedSentimentOverTimeState extends SentimentOverTimeState {
