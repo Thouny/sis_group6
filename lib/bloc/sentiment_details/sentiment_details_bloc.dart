@@ -123,6 +123,7 @@ extension _Helpers on SentimentDetailsBloc {
         }
       }
     }
+
     return keywords;
   }
 
