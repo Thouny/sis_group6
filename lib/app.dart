@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:sis_group6/bloc/app/app_bloc.dart';
+import 'package:sis_group6/bloc/preferences/preferences_bloc.dart';
 import 'package:sis_group6/controller/menu_controller.dart';
 import 'package:sis_group6/core/consts/app.dart';
 import 'package:sis_group6/core/theme/app.dart';
@@ -27,8 +28,18 @@ class AppWrapper extends StatelessWidget {
           create: (context) => MenuController(),
         ),
       ],
-      child: BlocProvider(
-        create: (context) => AppBloc()..add(const CheckAppStateEvent()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AppBloc()..add(const CheckAppStateEvent()),
+          ),
+          BlocProvider(
+            create: (context) => PreferencesBloc()
+              ..add(
+                const LoadPreferencesEvent(),
+              ),
+          ),
+        ],
         child: const App(),
       ),
     );
@@ -66,24 +77,41 @@ class _AppState extends State<App> {
     return BlocBuilder<AppBloc, AppState>(
       bloc: BlocProvider.of<AppBloc>(context),
       buildWhen: (previous, current) => previous != current,
-      builder: (context, state) {
-        return MaterialApp.router(
-          key: ObjectKey(state),
-          title: AppConsts.appName,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData.dark().copyWith(
-            scaffoldBackgroundColor: AppColors.backgroundColor,
-            textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-                .apply(bodyColor: Colors.white),
-            canvasColor: AppColors.secondaryColor,
-          ),
-          routeInformationParser: const RoutemasterParser(),
-          routerDelegate: routemaster,
-          builder: (context, child) => MediaQuery(
-            // override OS-level font scaling
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-            child: child ?? const SizedBox.shrink(),
-          ),
+      builder: (context, appState) {
+        return BlocBuilder<PreferencesBloc, PreferencesState>(
+          builder: (context, state) {
+            if (state is LoadedPreferencesState) {
+              return MaterialApp.router(
+                key: ObjectKey(appState),
+                title: AppConsts.appName,
+                debugShowCheckedModeBanner: false,
+                theme: state.isDarkMode
+                    ? ThemeData.dark().copyWith(
+                        scaffoldBackgroundColor: AppColors.backgroundColor,
+                        textTheme: GoogleFonts.poppinsTextTheme(
+                                Theme.of(context).textTheme)
+                            .apply(bodyColor: Colors.white),
+                        canvasColor: AppColors.secondaryColor,
+                      )
+                    : ThemeData.light().copyWith(
+                        scaffoldBackgroundColor: Colors.grey[300],
+                        textTheme: GoogleFonts.poppinsTextTheme(
+                                Theme.of(context).textTheme)
+                            .apply(bodyColor: Colors.grey[900]),
+                        // canvasColor: AppColors.secondaryColor,
+                      ),
+                routeInformationParser: const RoutemasterParser(),
+                routerDelegate: routemaster,
+                builder: (context, child) => MediaQuery(
+                  // override OS-level font scaling
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: child ?? const SizedBox.shrink(),
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
         );
       },
     );

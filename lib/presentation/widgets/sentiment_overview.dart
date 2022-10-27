@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:sis_group6/bloc/preferences/preferences_bloc.dart';
 import 'package:sis_group6/bloc/sentiment_overview/sentiment_overview_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/theme/app.dart';
@@ -22,53 +23,73 @@ class SentimentOverview extends StatelessWidget {
                   primary: false,
                   child: SelectableText(
                     state.sentimentOverview,
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 16,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          // color: Colors.white70,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 16,
+                        ),
                   ),
                 ),
               ),
             ],
           );
         } else if (state is LoadingSentimentOverviewState) {
-          return const _SentimentOverviewCard(
-            children: [
-              Expanded(
-                child: Center(
-                  child: SpinKitThreeInOut(color: Colors.white, size: 35),
-                ),
-              ),
-            ],
+          return BlocBuilder<PreferencesBloc, PreferencesState>(
+            builder: (context, state) {
+              if (state is LoadedPreferencesState) {
+                return _SentimentOverviewCard(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: SpinKitThreeInOut(
+                          color: state.isDarkMode
+                              ? Colors.white
+                              : AppColors.secondaryColor,
+                          size: 35,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
           );
         } else if (state is FailedSentimentOverviewState) {
           return _SentimentOverviewCard(
             children: [
               Expanded(
                 child: Center(
-                  child: Text(
-                    state.message,
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontStyle: FontStyle.italic,
-                    ),
+                  child: BlocBuilder<PreferencesBloc, PreferencesState>(
+                    builder: (context, prefState) {
+                      if (prefState is LoadedPreferencesState) {
+                        return Text(
+                          state.message,
+                          style:
+                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
                   ),
                 ),
               ),
             ],
           );
         } else {
-          return const _SentimentOverviewCard(
+          return _SentimentOverviewCard(
             children: [
               Expanded(
                 child: Center(
                   child: Text(
                     DashboardConsts.emptyCardText,
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontStyle: FontStyle.italic,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
                   ),
                 ),
               ),
@@ -88,21 +109,30 @@ class _SentimentOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-      decoration: const BoxDecoration(
-        color: AppColors.secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const _CardTitle(),
-          const SizedBox(height: AppPaddingValues.xSmallVerticalPadding),
-          ...children
-        ],
-      ),
+    return BlocBuilder<PreferencesBloc, PreferencesState>(
+      builder: (context, state) {
+        if (state is LoadedPreferencesState) {
+          return Container(
+            height: 400,
+            padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
+            decoration: BoxDecoration(
+              color:
+                  state.isDarkMode ? AppColors.secondaryColor : Colors.grey[50],
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _CardTitle(),
+                const SizedBox(height: AppPaddingValues.xSmallVerticalPadding),
+                ...children
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
     );
   }
 }
@@ -112,9 +142,19 @@ class _CardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      DashboardConsts.sentimentOverviewTitle,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          DashboardConsts.sentimentOverviewTitle,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        IconButton(
+          tooltip: DashboardConsts.sentimentSummaryToolTip,
+          onPressed: () {},
+          icon: const Icon(Icons.info),
+        ),
+      ],
     );
   }
 }

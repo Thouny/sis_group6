@@ -20,6 +20,7 @@ class SelectSocialMediaWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final socialMediaBloc = BlocProvider.of<SocialMediaBloc>(context);
     return MultiSelectChipField<SocialMediaModel?>(
+      decoration: const BoxDecoration(),
       height: AppHeightValues.multiChipFieldHeight,
       showHeader: false,
       initialValue: seletedSocialMedia,

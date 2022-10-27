@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sis_group6/bloc/preferences/preferences_bloc.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/presentation/models/sentiment_chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -45,13 +47,23 @@ class SentimentChart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: AppPaddingValues.smallPadding),
-                Text(
-                  '$positiveSentiment%',
-                  style: headlineStyle?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    height: 0.5,
-                  ),
+                BlocBuilder<PreferencesBloc, PreferencesState>(
+                  builder: (context, state) {
+                    if (state is LoadedPreferencesState) {
+                      return Text(
+                        '$positiveSentiment%',
+                        style: headlineStyle?.copyWith(
+                          color: state.isDarkMode
+                              ? Colors.white
+                              : Colors.grey[800],
+                          fontWeight: FontWeight.w600,
+                          height: 0.5,
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
                 ),
                 const Text('of positive level'),
               ],

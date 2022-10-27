@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:sis_group6/bloc/preferences/preferences_bloc.dart';
 import 'package:sis_group6/bloc/sentiment_details/sentiment_details_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/enums/sentiment.dart';
@@ -54,11 +55,24 @@ class SentimentDetails extends StatelessWidget {
             ],
           );
         } else if (state is LoadingSentimentDetailsState) {
-          return const _SentimentCard(
+          return _SentimentCard(
             children: [
               Expanded(
                 child: Center(
-                  child: SpinKitThreeInOut(color: Colors.white, size: 35),
+                  child: BlocBuilder<PreferencesBloc, PreferencesState>(
+                    builder: (context, state) {
+                      if (state is LoadedPreferencesState) {
+                        return SpinKitThreeInOut(
+                          color: state.isDarkMode
+                              ? Colors.white
+                              : AppColors.secondaryColor,
+                          size: 35,
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
@@ -70,16 +84,15 @@ class SentimentDetails extends StatelessWidget {
             ],
           );
         } else {
-          return const _SentimentCard(
+          return _SentimentCard(
             children: [
               Expanded(
                 child: Center(
                   child: Text(
                     DashboardConsts.emptyCardText,
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontStyle: FontStyle.italic,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
                   ),
                 ),
               ),
@@ -98,17 +111,26 @@ class _SentimentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 500,
-      padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-      decoration: const BoxDecoration(
-        color: AppColors.secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [const _CardTitle(), ...children],
-      ),
+    return BlocBuilder<PreferencesBloc, PreferencesState>(
+      builder: (context, state) {
+        if (state is LoadedPreferencesState) {
+          return Container(
+            height: 510,
+            padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
+            decoration: BoxDecoration(
+              color:
+                  state.isDarkMode ? AppColors.secondaryColor : Colors.grey[50],
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [const _CardTitle(), ...children],
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
     );
   }
 }
@@ -118,9 +140,19 @@ class _CardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      DashboardConsts.sentimentChartTitle,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          DashboardConsts.sentimentChartTitle,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        IconButton(
+          tooltip: DashboardConsts.sentimentDetailsToolTip,
+          onPressed: () {},
+          icon: const Icon(Icons.info),
+        ),
+      ],
     );
   }
 }

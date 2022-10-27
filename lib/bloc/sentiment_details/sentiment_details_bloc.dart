@@ -7,7 +7,6 @@ import 'package:get_it/get_it.dart';
 import 'package:sis_group6/core/enums/sentiment.dart';
 import 'package:sis_group6/core/enums/source.dart';
 import 'package:sis_group6/core/theme/keyword.dart';
-import 'package:sis_group6/domain/entities/keyword.dart';
 import 'package:sis_group6/domain/entities/mention.dart';
 import 'package:sis_group6/domain/repositories/sentiment.dart';
 import 'package:sis_group6/infrastructure/network/models/base_sentiment_response.dart';
@@ -104,7 +103,6 @@ extension _Helpers on SentimentDetailsBloc {
     List<BaseSentimentResponse> results,
   ) {
     final keywords = <KeywordModel>[];
-    var list = <KeywordEntity>[];
 
     for (final result in results) {
       for (var entity in result.wordClouds) {

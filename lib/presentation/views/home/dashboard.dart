@@ -57,10 +57,9 @@ class DashboardView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      flex: 5,
+                      flex: 10,
                       child: Column(
                         children: [
-                          // TODO: Add more cards here
                           SelectSocialMediaWidget(
                             seletedSocialMedia: state.selectedSources,
                             socialMedia: state.socialMedia,
@@ -87,7 +86,7 @@ class DashboardView extends StatelessWidget {
                       const SizedBox(width: AppPaddingValues.smallPadding),
                     if (!Responsive.isMobile(context))
                       Flexible(
-                        flex: 2,
+                        flex: 5,
                         child: Column(
                           children: const [
                             SentimentDetails(),
