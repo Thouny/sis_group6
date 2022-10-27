@@ -25,7 +25,8 @@ class SentimentOverTimeBloc
       emit(LoadingSentimentOverTimeState());
       final today = DateTime.now().toUtc();
       final sentimentOverTime = <SentimentAtDateGraphData>[];
-      for (var i = 1; i <= 7; i++) {
+      final yValues = <double>[];
+      for (var i = 7; i >= 1; i--) {
         final result = await _sentimentRepo.getSentimentAtDate(
           event.query,
           daysToSubstract: i,
@@ -35,13 +36,33 @@ class SentimentOverTimeBloc
           date,
           result?.sentimentStat.truncateToDouble(),
         ));
+        if (result != null) {
+          yValues.add(result.sentimentStat.truncateToDouble());
+        }
       }
 
-      emit(LoadedSentimentOverTimeState(sentimentOverTime: sentimentOverTime));
+      final evolution = _computeEvolution(yValues);
+
+      emit(LoadedSentimentOverTimeState(
+        sentimentOverTime: sentimentOverTime,
+        evolution: evolution,
+      ));
     } catch (err) {
       // ignore: avoid_print
       print(err.toString());
       emit(FailedSentimentOverTimeState(err.toString()));
+    }
+  }
+}
+
+extension _Helpers on SentimentOverTimeBloc {
+  double? _computeEvolution(List<double> yValues) {
+    if (yValues.length > 1) {
+      final start = yValues.first;
+      final last = yValues.last;
+      return last - start;
+    } else {
+      return null;
     }
   }
 }

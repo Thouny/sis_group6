@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:sis_group6/bloc/sentiment_over_time/sentiment_over_time_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
+import 'package:sis_group6/core/enums/sentiment.dart';
 import 'package:sis_group6/core/theme/app.dart';
 import 'package:sis_group6/presentation/models/sentiment_at_date_graph_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -15,18 +16,11 @@ class SentimentOverTimeGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<double?> sentimentYValues = [];
-    String sentimentChange;
     return BlocBuilder<SentimentOverTimeBloc, SentimentOverTimeState>(
       builder: (context, state) {
         if (state is LoadedSentimentOverTimeState) {
-          for (var i = 0; i < 7; i++) {
-            if (state.sentimentOverTime[i].yData != null) {
-              sentimentYValues.add(state.sentimentOverTime[i].yData);
-            }
-          }
-          sentimentChange = getSentimentChange(sentimentYValues);
           return _SentimentCard(
+            evolution: state.evolution,
             children: [
               SizedBox(
                 height: 200,
@@ -41,6 +35,7 @@ class SentimentOverTimeGraph extends StatelessWidget {
                           0,
                         ),
                         child: SfCartesianChart(
+                          tooltipBehavior: TooltipBehavior(enable: true),
                           primaryXAxis: DateTimeAxis(
                             isVisible: true,
                             majorGridLines: const MajorGridLines(width: 0),
@@ -58,6 +53,7 @@ class SentimentOverTimeGraph extends StatelessWidget {
                           plotAreaBorderColor: Colors.white,
                           series: <ChartSeries>[
                             SplineSeries<SentimentAtDateGraphData, DateTime>(
+                                name: 'Postiive %',
                                 dataSource: state.sentimentOverTime,
                                 xValueMapper: (data, _) => data.xData,
                                 yValueMapper: (data, _) => data.yData,
@@ -72,16 +68,11 @@ class SentimentOverTimeGraph extends StatelessWidget {
                                   mode: EmptyPointMode.drop,
                                 ),
                                 dataLabelSettings: const DataLabelSettings(
-                                  isVisible: true,
-                                )),
+                                    // isVisible: true,
+                                    )),
                           ],
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: AppPaddingValues.mediumVerticalPadding),
-                      child: Text(sentimentChange),
                     ),
                   ],
                 ),
@@ -89,21 +80,28 @@ class SentimentOverTimeGraph extends StatelessWidget {
             ],
           );
         } else if (state is LoadingSentimentOverTimeState) {
-          return const _SentimentCard(children: [
-            Expanded(
-              child: Center(
-                child: SpinKitThreeInOut(color: Colors.white, size: 35),
+          return const _SentimentCard(
+            evolution: null,
+            children: [
+              Expanded(
+                child: Center(
+                  child: SpinKitThreeInOut(color: Colors.white, size: 35),
+                ),
               ),
-            ),
-          ]);
+            ],
+          );
         } else if (state is FailedSentimentOverTimeState) {
-          return _SentimentCard(children: [
-            Expanded(
-              child: Center(child: Text(state.message)),
-            )
-          ]);
+          return _SentimentCard(
+            evolution: null,
+            children: [
+              Expanded(
+                child: Center(child: Text(state.message)),
+              )
+            ],
+          );
         } else {
           return const _SentimentCard(
+            evolution: null,
             children: [
               Expanded(
                 child: Center(
@@ -125,9 +123,14 @@ class SentimentOverTimeGraph extends StatelessWidget {
 }
 
 class _SentimentCard extends StatelessWidget {
-  const _SentimentCard({Key? key, required this.children}) : super(key: key);
+  const _SentimentCard({
+    Key? key,
+    required this.children,
+    required this.evolution,
+  }) : super(key: key);
 
   final List<Widget> children;
+  final double? evolution;
 
   @override
   Widget build(BuildContext context) {
@@ -140,31 +143,51 @@ class _SentimentCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [const _CardTitle(), ...children],
+        children: [
+          _CardTitle(
+            evolution: evolution,
+          ),
+          ...children
+        ],
       ),
     );
   }
 }
 
 class _CardTitle extends StatelessWidget {
-  const _CardTitle({Key? key}) : super(key: key);
+  const _CardTitle({
+    Key? key,
+    required this.evolution,
+  }) : super(key: key);
+
+  final double? evolution;
+
+  Widget _buildEvolution(BuildContext context, double evolution) {
+    final style = Theme.of(context).textTheme.headline6;
+    if (evolution.isNegative) {
+      return Text(
+        '$evolution%',
+        style: style?.copyWith(color: Sentiment.negative.color),
+      );
+    } else {
+      return Text(
+        '+$evolution%',
+        style: style?.copyWith(color: Sentiment.positive.color),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      DashboardConsts.sentimentOverTimeGraphTitle,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    return Row(
+      children: [
+        const Text(
+          DashboardConsts.sentimentOverTimeGraphTitle,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        if (evolution != null) const SizedBox(width: 20),
+        if (evolution != null) _buildEvolution(context, evolution!),
+      ],
     );
   }
-}
-
-String getSentimentChange(List sentimentYValues) {
-  if (sentimentYValues.length == 1) {
-    return 'No change';
-  }
-  String sentimentChangeString;
-  double sentimentChange =
-      sentimentYValues[0] - sentimentYValues[sentimentYValues.length - 1];
-  sentimentChangeString = sentimentChange.toStringAsFixed(0);
-  return '$sentimentChangeString%  change over time';
 }
