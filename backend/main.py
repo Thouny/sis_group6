@@ -88,8 +88,12 @@ client = tweepy.Client(bearer_token=keys.BEARER,
 def sentimentAnalysis(query):
     count = 0
     total = 0
-    customStopWords = [query.lower(), 'https', 'n',
-                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
+
+    queryStopWords = query.lower().split()
+    customStopWords = [query.lower(), query.replace(" ", ""), 'https', 'n',
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit', 'reddit', 'twitter', 'r', 'rt', 'comments', 'message']
+    customStopWords.extend(queryStopWords)
+
     try:
         # get query
         #query = input('Enter your keyword:\n')
@@ -147,8 +151,10 @@ def sentimentAnalysis(query):
 def sentimentAnalysisAtDate(query, daysToSubstract):
     count = 0
     total = 0
-    customStopWords = [query.lower(), 'https', 'n',
-                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
+    queryStopWords = query.lower().split()
+    customStopWords = [query.lower(), query.replace(" ", ""), 'https', 'n',
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit', 'reddit', 'twitter', 'r', 'rt', 'comments', 'message']
+    customStopWords.extend(queryStopWords)
     try:
         query = '#' + query + ' lang:en'
         queryList = []
@@ -217,8 +223,10 @@ def sentimentAnalysisAtDate(query, daysToSubstract):
 def sentimentAnalysisReddit(query):
     count = 0
     total = 0
-    customStopWords = [query.lower(), 'https', 'n',
-                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co']
+    queryStopWords = query.lower().split()
+    customStopWords = [query.lower(), query.replace(" ", ""), 'https', 'n',
+                       'nhttps', 'the', 'rt', 'for', 't', 'a', 'co', 'bot', 'subreddit', 'reddit', 'twitter', 'r', 'rt', 'comments', 'message']
+    customStopWords.extend(queryStopWords)
     try:
         # set the link we are requesting from
         headers = {
