@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sis_group6/core/consts/app.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:sis_group6/core/theme/app.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -9,10 +10,15 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final tabState = TabPage.of(context);
     return Drawer(
+      backgroundColor: AppColors.secondaryColor,
       child: ListView(
         children: [
-          const DrawerHeader(
-            child: Text(AppConsts.appName),
+          DrawerHeader(
+            child: Text(AppConsts.appName,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: Colors.white)),
           ),
           _DrawerListTile(
             title: AppConsts.dashboard,
@@ -21,7 +27,7 @@ class SideMenu extends StatelessWidget {
             },
             icon: IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.dashboard_rounded),
+              icon: const Icon(Icons.dashboard_rounded, color: Colors.white),
             ),
           ),
           _DrawerListTile(
@@ -31,7 +37,7 @@ class SideMenu extends StatelessWidget {
             },
             icon: IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.notifications),
+              icon: const Icon(Icons.notifications, color: Colors.white),
             ),
           ),
           _DrawerListTile(
@@ -41,7 +47,7 @@ class SideMenu extends StatelessWidget {
             },
             icon: IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.account_box),
+              icon: const Icon(Icons.account_box, color: Colors.white),
             ),
           ),
           _DrawerListTile(
@@ -51,7 +57,7 @@ class SideMenu extends StatelessWidget {
             },
             icon: IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.settings),
+              icon: const Icon(Icons.settings, color: Colors.white),
             ),
           ),
           _DrawerListTile(
@@ -61,7 +67,8 @@ class SideMenu extends StatelessWidget {
             },
             icon: IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.supervised_user_circle),
+              icon:
+                  const Icon(Icons.supervised_user_circle, color: Colors.white),
             ),
           ),
         ],

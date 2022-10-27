@@ -5,4 +5,5 @@ class DashboardConsts {
   static const mentionsCardTitle = 'Mentions';
   static const emptyCardText = 'Search a topic';
   static const sentimentOverviewTitle = 'Sentiment summary';
+  static const wordCloudTitle = 'Wordcloud';
 }

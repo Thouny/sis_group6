@@ -17,9 +17,9 @@ extension Properties on Sentiment {
   Color get color {
     switch (this) {
       case Sentiment.positive:
-        return const Color.fromARGB(255, 38, 255, 89);
+        return const Color.fromARGB(203, 38, 255, 89);
       case Sentiment.negative:
-        return const Color(0xFFEE2727);
+        return const Color.fromARGB(218, 238, 39, 39);
       default:
         return Colors.black;
     }

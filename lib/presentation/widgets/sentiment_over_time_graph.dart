@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:sis_group6/bloc/preferences/preferences_bloc.dart';
 import 'package:sis_group6/bloc/sentiment_over_time/sentiment_over_time_bloc.dart';
 import 'package:sis_group6/core/consts/home/dashboard.dart';
 import 'package:sis_group6/core/enums/sentiment.dart';
@@ -80,12 +81,25 @@ class SentimentOverTimeGraph extends StatelessWidget {
             ],
           );
         } else if (state is LoadingSentimentOverTimeState) {
-          return const _SentimentCard(
+          return _SentimentCard(
             evolution: null,
             children: [
               Expanded(
                 child: Center(
-                  child: SpinKitThreeInOut(color: Colors.white, size: 35),
+                  child: BlocBuilder<PreferencesBloc, PreferencesState>(
+                    builder: (context, state) {
+                      if (state is LoadedPreferencesState) {
+                        return SpinKitThreeInOut(
+                          color: state.isDarkMode
+                              ? Colors.white
+                              : AppColors.secondaryColor,
+                          size: 35,
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
@@ -100,17 +114,16 @@ class SentimentOverTimeGraph extends StatelessWidget {
             ],
           );
         } else {
-          return const _SentimentCard(
+          return _SentimentCard(
             evolution: null,
             children: [
               Expanded(
                 child: Center(
                   child: Text(
                     DashboardConsts.emptyCardText,
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontStyle: FontStyle.italic,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
                   ),
                 ),
               ),
@@ -134,22 +147,31 @@ class _SentimentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 280,
-      padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-      decoration: const BoxDecoration(
-        color: AppColors.secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _CardTitle(
-            evolution: evolution,
-          ),
-          ...children
-        ],
-      ),
+    return BlocBuilder<PreferencesBloc, PreferencesState>(
+      builder: (context, state) {
+        if (state is LoadedPreferencesState) {
+          return Container(
+            height: 280,
+            padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
+            decoration: BoxDecoration(
+              color:
+                  state.isDarkMode ? AppColors.secondaryColor : Colors.grey[50],
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _CardTitle(
+                  evolution: evolution,
+                ),
+                ...children
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
     );
   }
 }
